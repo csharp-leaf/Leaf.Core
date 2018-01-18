@@ -26,7 +26,7 @@ namespace Leaf.Core.Threading
         /// </summary>
         protected event ThreadsBeforeStartHandler BeforeStart;
 
-        private readonly ThreadSafeUi _ui;
+        private readonly ThreadSafeUI _ui;
         private CancellationTokenSource _cancel;
 
         #region Thread Counters and Flags
@@ -41,7 +41,7 @@ namespace Leaf.Core.Threading
         /// Создает менеджер для организации многопоточной работы.
         /// </summary>
         /// <param name="ui">Потокобезопасное хранилище для работы с интерфейсом</param>
-        protected ThreadManager(ThreadSafeUi ui)
+        protected ThreadManager(ThreadSafeUI ui)
         {
             _ui = ui;
         }

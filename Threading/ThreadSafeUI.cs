@@ -14,23 +14,23 @@ namespace Leaf.Core.Threading
     /// Делегат для блокирования интерфейса, на время работы.
     /// </summary>
     /// <param name="enable">Включить элементы интерфейса</param>
-    public delegate void DEnableUi(bool enable = true);
+    public delegate void DEnableUI(bool enable = true);
     /// <summary>
     /// Делегат для установления хода работы.
     /// </summary>
     /// <param name="current">Текущий рабочий элемент</param>
     /// <param name="total">Всего рабочих элементов</param>
-    public delegate void DSetProgress(int current = 0, int total = 0);
+    public delegate void DSetProgress(ulong current = 0, ulong total = 0);
 
     /// <summary>
     /// Представляет собой хранилище потокобезопасных методов для работы с интерфейсом.
     /// </summary>
-    public abstract class ThreadSafeUi
+    public abstract class ThreadSafeUI
     {
         /// <summary>
         /// Блокирование интерфейса, на время работы.
         /// </summary>
-        public DEnableUi EnableUi;
+        public DEnableUI EnableUI;
         /// <summary>
         /// Установка хода работы.
         /// </summary>
@@ -48,9 +48,8 @@ namespace Leaf.Core.Threading
         /// <summary>
         /// Создает потокобезопасную реализацию для работы с интерфейсом.
         /// </summary>
-        /// <param name="log">Метод вызываемый формой, с обработкой Invoke, для вывода сообщения в лог</param>
         /// <param name="formLog">Делегат на запись в лог</param>
-        protected ThreadSafeUi(DFormLog formLog) => FormLog = formLog;
+        protected ThreadSafeUI(DFormLog formLog) => FormLog = formLog;
 
         /// <summary>
         /// Бросает исключение, если работа была остановлена пользователем.
