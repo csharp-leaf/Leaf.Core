@@ -4,7 +4,7 @@ namespace Leaf.Core.Threading
 {
     /// <inheritdoc />
     /// <summary>
-    /// Возникает если опциональная задача 
+    /// Возникает если опциональная задача
     /// Исключение не должно вызывать остановку конвеера
     /// </summary>
     public class TaskRepeatException : Exception

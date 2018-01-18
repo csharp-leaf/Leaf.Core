@@ -2,12 +2,12 @@
 
 namespace Leaf.Core.Threading
 {
-    internal class TaskPanicException : Exception
+    /// <inheritdoc />
+    /// <summary>
+    /// Критическая ошибка конвеера. Вызывает его остановку.
+    /// </summary>
+    public class TaskPanicException : Exception
     {
-        /// <inheritdoc />
-        /// <summary>
-        /// Возникает при критической ошибке конвеера и вызывает его остановку.
-        /// </summary>
         public TaskPanicException(string message) : base(message)
         {
         }
