@@ -69,7 +69,7 @@ namespace Leaf.Core.Threading
             // Сбрасываем флаг о завершении всех потоков
             _done = false;
             // Выключаем компоненты
-            _ui.EnableUi(false);
+            _ui.EnableUI(false);
             _ui.SetProgress(); // Сбрасываем полоску прогресса
             _threads.Clear();
             
@@ -113,7 +113,7 @@ namespace Leaf.Core.Threading
             _threads.Clear();
             _activeThreads = 0;
 
-            _ui.EnableUi();
+            _ui.EnableUI();
             _ui.SetProgress();
         }
 
@@ -153,7 +153,7 @@ namespace Leaf.Core.Threading
                     Done?.Invoke();
 
                     _ui.SetProgress();
-                    _ui.EnableUi();
+                    _ui.EnableUI();
                 }
             }
         }

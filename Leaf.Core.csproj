@@ -35,10 +35,18 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Collections\ListFromFile.cs" />
-    <Compile Include="Collections\LoopList.cs" />
-    <Compile Include="Collections\ParseableItem.cs" />
-    <Compile Include="Collections\QueueFromFile.cs" />
+    <Compile Include="Collections\CollectionRandomizer.cs" />
+    <Compile Include="Collections\FileBased\FileMaterialsBase.cs" />
+    <Compile Include="Collections\Generic\MaterialsQueue.cs" />
+    <Compile Include="Collections\Generic\MaterialsList.cs" />
+    <Compile Include="Collections\Generic\IMaterialsStorage.cs" />
+    <Compile Include="Collections\Generic\MaterialsStorageList.cs" />
+    <Compile Include="Collections\Generic\MaterialsStorageQueue.cs" />
+    <Compile Include="Collections\Generic\MaterialsBase.cs" />
+    <Compile Include="Collections\FileBased\FileMaterialsList.cs" />
+    <Compile Include="Collections\FileBased\FileMaterialsQueue.cs" />
+    <Compile Include="Collections\MaterialsList.cs" />
+    <Compile Include="Collections\MaterialsQueue.cs" />
     <Compile Include="ExternalServices\CaptchaException.cs" />
     <Compile Include="ExternalServices\Rucaptcha.cs" />
     <Compile Include="IO\BinarySerializer.cs" />
@@ -52,5 +60,6 @@
     <Compile Include="Threading\ThreadManager.cs" />
     <Compile Include="Threading\ThreadSafeUI.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
