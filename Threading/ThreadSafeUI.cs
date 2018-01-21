@@ -67,7 +67,7 @@ namespace Leaf.Core.Threading
         public bool IsCanceled => CancelToken.IsCancellationRequested;
 
         /// <summary>
-        /// Пишет сообщение в лог
+        /// Пишет сообщение в лог.
         /// </summary>
         /// <param name="message">Сообщение</param>
         /// <param name="showTime">Показывать дату сообщения</param>
@@ -87,6 +87,17 @@ namespace Leaf.Core.Threading
             // Выводим в форму отформатированное сообщение
             FormLog(sb.ToString());
             sb.Clear();
+        }
+
+        /// <summary>
+        /// Пишет форматируемое сообщение в лог.
+        /// </summary>
+        /// <param name="format">Форматируемая строка</param>
+        /// <param name="args">Форматируемые параметры</param>
+        public void Log(string format, params object[] args)
+        {
+            string message = string.Format(format, args);
+            Log(message);
         }
     }
 }
