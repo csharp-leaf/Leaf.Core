@@ -14,16 +14,16 @@ namespace Leaf.Core.Collections.Generic
         /// Создаёт потокобезопасный список объектов из текстового файла. Десериализация проводится построчно.
         /// </summary>
         /// <param name="filePath">Путь до файла</param>
-        /// <param name="log">Делегат для вывода сообщений об ошибках десериализации объектов</param>
+        /// <param name="ui">Потокобезопасный интерфейс, нужен для ведения лога в случае ошибки десериализации</param>
         /// <param name="includeComments">Если true, то строки с коментариями тоже будут включены в выборку для десериалиализации.</param>
         /// <param name="trim">Очищать начало и конец строк от отступов и пробелов.</param>
         /// <returns>Новый список материалов</returns>
-        public static MaterialsList<T> ListFromFile<T>(string filePath, DFormLog log = null,
+        public static MaterialsList<T> ListFromFile<T>(string filePath, ThreadSafeUI ui = null,
             bool includeComments = false, bool trim = true)
             where T : IStringSerializeable, new()
         {
             var result = new MaterialsList<T>();
-            ReadAndDeserialize(result, filePath, log, includeComments, trim);
+            ReadAndDeserialize(result, filePath, ui, includeComments, trim);
             return result;
         }
 
@@ -31,16 +31,16 @@ namespace Leaf.Core.Collections.Generic
         /// Создаёт потокобезопасную очередь объектов из текстового файла. Десериализация проводится построчно.
         /// </summary>
         /// <param name="filePath">Путь до файла</param>
-        /// <param name="log">Делегат для вывода сообщений об ошибках десериализации объектов</param>
+        /// <param name="ui">Потокобезопасный интерфейс, нужен для ведения лога в случае ошибки десериализации</param>
         /// <param name="includeComments">Если true, то строки с коментариями тоже будут включены в выборку для десериалиализации.</param>
         /// <param name="trim">Очищать начало и конец строк от отступов и пробелов.</param>
         /// <returns>Новая очередь материалов</returns>
-        public static MaterialsQueue<T> QueueFromFile<T>(string filePath, DFormLog log = null, 
+        public static MaterialsQueue<T> QueueFromFile<T>(string filePath, ThreadSafeUI ui = null, 
             bool includeComments = false, bool trim = true)
             where T : IStringSerializeable, new()
         {
             var result = new MaterialsQueue<T>();
-            ReadAndDeserialize(result, filePath, log, includeComments, trim);      
+            ReadAndDeserialize(result, filePath, ui, includeComments, trim);      
             return result;
         }
 
@@ -53,11 +53,10 @@ namespace Leaf.Core.Collections.Generic
         /// Создаёт потокобезопасный список строк из текстового файла. Десериализация проводится построчно.
         /// </summary>
         /// <returns>Новый список строковых материалов</returns>
-        public static MaterialsList ListFromFile(string filePath, DFormLog log = null,
-            bool includeComments = false, bool trim = true)
+        public static MaterialsList ListFromFile(string filePath, bool includeComments = false, bool trim = true)
         {
             var result = new MaterialsList();
-            ReadAndAppend(result, filePath, log, includeComments, trim);
+            ReadAndAppend(result, filePath, includeComments, trim);
             return result;
         }
 
@@ -66,11 +65,10 @@ namespace Leaf.Core.Collections.Generic
         /// Создаёт потокобезопасную очередь строк из текстового файла. Десериализация проводится построчно.
         /// </summary>
         /// <returns>Новая очередь строковых материалов</returns>
-        public static MaterialsQueue QueueFromFile(string filePath, DFormLog log = null,
-            bool includeComments = false, bool trim = true)
+        public static MaterialsQueue QueueFromFile(string filePath, bool includeComments = false, bool trim = true)
         {
             var result = new MaterialsQueue();
-            ReadAndAppend(result, filePath, log, includeComments, trim);
+            ReadAndAppend(result, filePath, includeComments, trim);
             return result;
         }
 
@@ -86,22 +84,22 @@ namespace Leaf.Core.Collections.Generic
         /// <summary>
         /// Асинхронно создаёт потокобезопасный список объектов из текстового файла. Десериализация проводится построчно.
         /// </summary>        
-        public static async Task<MaterialsList<T>> ListFromFileAsync<T>(string filePath, DFormLog log = null,
+        public static async Task<MaterialsList<T>> ListFromFileAsync<T>(string filePath, ThreadSafeUI ui = null,
             bool includeComments = false, bool trim = true)
             where T : IStringSerializeable, new()
         {
-            return await Task.Run(() => ListFromFile<T>(filePath, log, includeComments, trim));
+            return await Task.Run(() => ListFromFile<T>(filePath, ui, includeComments, trim));
         }
 
         /// <inheritdoc cref="QueueFromFile{T}"/>
         /// <summary>
         /// Асинхронно создаёт потокобезопасную очередь объектов из текстового файла. Десериализация проводится построчно.
         /// </summary>
-        public static async Task<MaterialsQueue<T>> QueueFromFileAsync<T>(string filePath, DFormLog log = null,
+        public static async Task<MaterialsQueue<T>> QueueFromFileAsync<T>(string filePath, ThreadSafeUI ui = null,
             bool includeComments = false, bool trim = true)
             where T : IStringSerializeable, new()
         {
-            return await Task.Run(() => QueueFromFile<T>(filePath, log, includeComments, trim));
+            return await Task.Run(() => QueueFromFile<T>(filePath, ui, includeComments, trim));
         }
 
         #endregion
@@ -112,20 +110,20 @@ namespace Leaf.Core.Collections.Generic
         /// <summary>
         /// Асинхронно создаёт потокобезопасный список строк из текстового файла. Десериализация проводится построчно.
         /// </summary>
-        public static async Task<MaterialsList> ListFromFileAsync(string filePath, DFormLog log = null,
+        public static async Task<MaterialsList> ListFromFileAsync(string filePath, 
             bool includeComments = false, bool trim = true)
         {
-            return await Task.Run(() => ListFromFile(filePath, log, includeComments, trim));
+            return await Task.Run(() => ListFromFile(filePath, includeComments, trim));
         }
 
         /// <inheritdoc cref="QueueFromFile"/>
         /// <summary>
         /// Асинхронно создаёт потокобезопасную очередь строк из текстового файла. Десериализация проводится построчно.
         /// </summary>        
-        public static async Task<MaterialsQueue> QueueFromFileAsync(string filePath, DFormLog log = null,
+        public static async Task<MaterialsQueue> QueueFromFileAsync(string filePath,
             bool includeComments = false, bool trim = true)
         {
-            return await Task.Run(() => QueueFromFile(filePath, log, includeComments, trim));
+            return await Task.Run(() => QueueFromFile(filePath, includeComments, trim));
         }
 
         #endregion
@@ -159,7 +157,7 @@ namespace Leaf.Core.Collections.Generic
             }
         }
 
-        private static void ReadAndDeserialize<T>(MaterialsCollection<T> collection, string filePath, DFormLog log,
+        private static void ReadAndDeserialize<T>(MaterialsCollection<T> collection, string filePath, ThreadSafeUI ui,
             bool includeComments, bool trim)
             where T : IStringSerializeable, new()
         {
@@ -169,11 +167,11 @@ namespace Leaf.Core.Collections.Generic
                 if (item.DeserializeFromString(line))
                     collection.AppendItem(item);
                 else
-                    log?.Invoke($"Пропускаю, неверная запись объекта {nameof(T)}. Строка #{lineNumber}: {line}");
+                    ui?.Log($"Пропускаю, неверная запись объекта {typeof(T).Name}. Строка #{lineNumber}: {line}");
             });
         }
 
-        private static void ReadAndAppend(MaterialsCollection<string> collection, string filePath, DFormLog log,
+        private static void ReadAndAppend(MaterialsCollection<string> collection, string filePath,
             bool includeComments, bool trim)
         {
             ReadFileLineByLine(filePath, includeComments, trim, (lineNumber, line) => {
