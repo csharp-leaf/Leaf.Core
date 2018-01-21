@@ -52,13 +52,18 @@ namespace Leaf.Core.Collections.FileBased
         /// </summary>
         public void ResetPointer()
         {
-            lock (_materialsStorage)
+            if (MaterialsStorage == null)
+                return;
+            
+            lock (MaterialsStorage)
                 _materialsStorage.ResetPointer();
         }
 
         /// <summary>
         /// Проверяет существование элемента в списке.
         /// </summary>
+        /// <param name="item">Элемент</param>
+        /// <returns>Возвращает истину, если элемент был найден в списке.</returns>
         public bool Contains(string item)
         {
             if (MaterialsStorage == null)
@@ -66,6 +71,20 @@ namespace Leaf.Core.Collections.FileBased
 
             lock (MaterialsStorage)
                 return _materialsStorage.Contains(item);
+        }
+
+        /// <summary>
+        /// Удаляет элемент из списка.
+        /// </summary>
+        /// <param name="item">Элемент</param>
+        /// <returns>Возвращает истину, если элемент был найден и удалён.</returns>
+        public bool Remove(string item)
+        {
+            if (MaterialsStorage == null)
+                return false;
+
+            lock (MaterialsStorage)
+                return _materialsStorage.Remove(item);            
         }
     }
 }

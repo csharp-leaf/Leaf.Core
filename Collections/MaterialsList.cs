@@ -30,6 +30,6 @@ namespace Leaf.Core.Collections
         /// <inheritdoc />
         public MaterialsList(IEnumerable<string> items) : base(items)
         {
-        }
+        }      
     }
 }

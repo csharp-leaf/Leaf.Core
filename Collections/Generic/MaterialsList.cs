@@ -70,5 +70,19 @@ namespace Leaf.Core.Collections.Generic
             lock (MaterialsStorage)
                 return MaterialsStorageList.Contains(item);
         }
+
+        /// <summary>
+        /// Удаляет элемент из списка.
+        /// </summary>
+        /// <param name="item">Элемент</param>
+        /// <returns>Возвращает истину, если элемент был найден и удалён.</returns>
+        public bool Remove(T item)
+        {
+            if (MaterialsStorage == null)
+                return false;
+
+            lock (MaterialsStorage)
+                return MaterialsStorageList.Remove(item);
+        }
     }
 }
