@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Text;
+﻿using System.Text;
 using Leaf.Core.Collections.Generic;
 
 namespace Leaf.Core.Collections
@@ -9,10 +8,10 @@ namespace Leaf.Core.Collections
     /// </summary>
     public class MaterialsQueue : MaterialsQueue<string>
     {
-        /// <inheritdoc />
-        public MaterialsQueue(IEnumerable<string> items) : base(items)
-        {
-        }
+        // /// <inheritdoc />
+        //public MaterialsQueue(IEnumerable<string> items) : base(items)
+        //{
+        // }
 
         /// <summary>
         /// Поочередно извлекает все материалы из очереди и записывает в строку.

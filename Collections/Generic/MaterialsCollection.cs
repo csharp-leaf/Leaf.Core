@@ -1,6 +1,10 @@
 ﻿namespace Leaf.Core.Collections.Generic
 {
-    public abstract class MaterialsBase<T>
+    /// <summary>
+    /// Абстрактная реализация потокобезопасной коллекции.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public abstract class MaterialsCollection<T>
     {        
         protected IMaterialsStorage<T> MaterialsStorage;
 
@@ -39,6 +43,7 @@
         /// <summary>
         /// Записывает следующий рабочий материал из коллекции в переменную. Возвращает истину в случае успеха.
         /// </summary>
+        /// <param name="item">Переменная куда будет записан полученный материал из коллекции</param>
         public virtual bool GetNext(out T item)
         {
             item = GetNext();

@@ -1,7 +1,6 @@
 ﻿using System;
-using Leaf.Core.Collections.Generic;
 
-namespace Leaf.Core.Collections
+namespace Leaf.Core.Collections.Generic
 {
     public static class CollectionRandimizer
     {

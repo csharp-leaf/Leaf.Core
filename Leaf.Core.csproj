@@ -35,16 +35,15 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Collections\CollectionRandomizer.cs" />
-    <Compile Include="Collections\FileBased\FileMaterialsBase.cs" />
+    <Compile Include="Collections\Generic\CollectionRandomizer.cs" />
+    <Compile Include="Collections\Generic\IStringSerializeable.cs" />
+    <Compile Include="Collections\Generic\MaterialsFactory.cs" />
     <Compile Include="Collections\Generic\MaterialsQueue.cs" />
     <Compile Include="Collections\Generic\MaterialsList.cs" />
     <Compile Include="Collections\Generic\IMaterialsStorage.cs" />
     <Compile Include="Collections\Generic\MaterialsStorageList.cs" />
     <Compile Include="Collections\Generic\MaterialsStorageQueue.cs" />
-    <Compile Include="Collections\Generic\MaterialsBase.cs" />
-    <Compile Include="Collections\FileBased\FileMaterialsList.cs" />
-    <Compile Include="Collections\FileBased\FileMaterialsQueue.cs" />
+    <Compile Include="Collections\Generic\MaterialsCollection.cs" />
     <Compile Include="Collections\MaterialsList.cs" />
     <Compile Include="Collections\MaterialsQueue.cs" />
     <Compile Include="ExternalServices\CaptchaException.cs" />

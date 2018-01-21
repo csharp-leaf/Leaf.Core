@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Leaf.Core.Collections.Generic;
+﻿using Leaf.Core.Collections.Generic;
 
 namespace Leaf.Core.Collections
 {
@@ -27,9 +26,9 @@ namespace Leaf.Core.Collections
     /// </summary>
     public class MaterialsList : MaterialsList<string>
     {
-        /// <inheritdoc />
-        public MaterialsList(IEnumerable<string> items) : base(items)
-        {
-        }      
+        ///// <inheritdoc />
+        //public MaterialsList(IEnumerable<string> items) : base(items)
+        //{
+        //}      
     }
 }

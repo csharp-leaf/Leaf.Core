@@ -5,21 +5,30 @@ namespace Leaf.Core.Collections.Generic
     /// <summary>
     /// Потокобезопасный список материалов.
     /// </summary>
-    public class MaterialsList<T> : MaterialsBase<T>
+    public class MaterialsList<T> : MaterialsCollection<T>
     {
         protected readonly MaterialsStorageList<T> MaterialsStorageList = new MaterialsStorageList<T>();
         
         /// <summary>
-        /// Создает новый список материалов или на основе перечислимой коллекции.
+        /// Изначальное число элементов. Назначение: подсчет прогресса.
+        /// Значение задается на фабриках, например после чтения коллекции из файла.
         /// </summary>
-        /// <param name="items"></param>
-        public MaterialsList(IEnumerable<T> items = null)
+        public int StartCount { get; set; }
+
+        /// <summary>
+        /// Создает новый список материалов.
+        /// </summary>
+        public MaterialsList()
         {
             MaterialsStorage = MaterialsStorageList;
+        }
 
-            if (items == null)
-                return;
-
+        /// <summary>
+        /// Создает новый список материалов на основе перечислимой коллекции.
+        /// </summary>
+        /// <param name="items">Элементы которые следует добавить в список</param>
+        public MaterialsList(IEnumerable<T> items) : this() // Вызываем базовый конструктор сначала
+        {
             foreach (var item in items)
                 MaterialsStorageList.Add(item);
         }

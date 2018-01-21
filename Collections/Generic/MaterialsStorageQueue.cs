@@ -13,7 +13,7 @@ namespace Leaf.Core.Collections.Generic
         /// <inheritdoc />
         public T GetNext()
         {
-            return Dequeue();
+            return Count == 0 ? default(T) : Dequeue();
         }
     }
 }
