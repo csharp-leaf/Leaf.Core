@@ -4,7 +4,10 @@ using Leaf.Core.Threading;
 
 namespace Leaf.Core.Collections.Generic
 {
-    public static class MaterialsFactory
+    /// <summary>
+    /// Фабрика потокобезопасных коллекций.
+    /// </summary>
+    public static class LockedFactory
     {
         #region # Public Synchronous Methods
 
@@ -17,12 +20,12 @@ namespace Leaf.Core.Collections.Generic
         /// <param name="ui">Потокобезопасный интерфейс, нужен для ведения лога в случае ошибки десериализации</param>
         /// <param name="includeComments">Если true, то строки с коментариями тоже будут включены в выборку для десериалиализации.</param>
         /// <param name="trim">Очищать начало и конец строк от отступов и пробелов.</param>
-        /// <returns>Новый список материалов</returns>
-        public static MaterialsList<T> ListFromFile<T>(string filePath, ThreadSafeUI ui = null,
+        /// <returns>Возвращает новый потокобезопасный список объектов</returns>
+        public static LockedList<T> ListFromFile<T>(string filePath, ThreadSafeUI ui = null,
             bool includeComments = false, bool trim = true)
             where T : IStringSerializeable, new()
         {
-            var result = new MaterialsList<T>();
+            var result = new LockedList<T>();
             ReadAndDeserialize(result, filePath, ui, includeComments, trim);
             return result;
         }
@@ -34,12 +37,12 @@ namespace Leaf.Core.Collections.Generic
         /// <param name="ui">Потокобезопасный интерфейс, нужен для ведения лога в случае ошибки десериализации</param>
         /// <param name="includeComments">Если true, то строки с коментариями тоже будут включены в выборку для десериалиализации.</param>
         /// <param name="trim">Очищать начало и конец строк от отступов и пробелов.</param>
-        /// <returns>Новая очередь материалов</returns>
-        public static MaterialsQueue<T> QueueFromFile<T>(string filePath, ThreadSafeUI ui = null, 
+        /// <returns>Возвращает новую потокобезопасную очередь объектов</returns>
+        public static LockedQueue<T> QueueFromFile<T>(string filePath, ThreadSafeUI ui = null, 
             bool includeComments = false, bool trim = true)
             where T : IStringSerializeable, new()
         {
-            var result = new MaterialsQueue<T>();
+            var result = new LockedQueue<T>();
             ReadAndDeserialize(result, filePath, ui, includeComments, trim);      
             return result;
         }
@@ -52,10 +55,10 @@ namespace Leaf.Core.Collections.Generic
         /// <summary>
         /// Создаёт потокобезопасный список строк из текстового файла. Десериализация проводится построчно.
         /// </summary>
-        /// <returns>Новый список строковых материалов</returns>
-        public static MaterialsList ListFromFile(string filePath, bool includeComments = false, bool trim = true)
+        /// <returns>Возвращает новый потокобезопасный список строк</returns>
+        public static LockedList ListFromFile(string filePath, bool includeComments = false, bool trim = true)
         {
-            var result = new MaterialsList();
+            var result = new LockedList();
             ReadAndAppend(result, filePath, includeComments, trim);
             return result;
         }
@@ -64,10 +67,10 @@ namespace Leaf.Core.Collections.Generic
         /// <summary>
         /// Создаёт потокобезопасную очередь строк из текстового файла. Десериализация проводится построчно.
         /// </summary>
-        /// <returns>Новая очередь строковых материалов</returns>
-        public static MaterialsQueue QueueFromFile(string filePath, bool includeComments = false, bool trim = true)
+        /// <returns>Возвращает новую потокобезопасную очередь строк</returns>
+        public static LockedQueue QueueFromFile(string filePath, bool includeComments = false, bool trim = true)
         {
-            var result = new MaterialsQueue();
+            var result = new LockedQueue();
             ReadAndAppend(result, filePath, includeComments, trim);
             return result;
         }
@@ -84,7 +87,7 @@ namespace Leaf.Core.Collections.Generic
         /// <summary>
         /// Асинхронно создаёт потокобезопасный список объектов из текстового файла. Десериализация проводится построчно.
         /// </summary>        
-        public static async Task<MaterialsList<T>> ListFromFileAsync<T>(string filePath, ThreadSafeUI ui = null,
+        public static async Task<LockedList<T>> ListFromFileAsync<T>(string filePath, ThreadSafeUI ui = null,
             bool includeComments = false, bool trim = true)
             where T : IStringSerializeable, new()
         {
@@ -95,7 +98,7 @@ namespace Leaf.Core.Collections.Generic
         /// <summary>
         /// Асинхронно создаёт потокобезопасную очередь объектов из текстового файла. Десериализация проводится построчно.
         /// </summary>
-        public static async Task<MaterialsQueue<T>> QueueFromFileAsync<T>(string filePath, ThreadSafeUI ui = null,
+        public static async Task<LockedQueue<T>> QueueFromFileAsync<T>(string filePath, ThreadSafeUI ui = null,
             bool includeComments = false, bool trim = true)
             where T : IStringSerializeable, new()
         {
@@ -110,7 +113,7 @@ namespace Leaf.Core.Collections.Generic
         /// <summary>
         /// Асинхронно создаёт потокобезопасный список строк из текстового файла. Десериализация проводится построчно.
         /// </summary>
-        public static async Task<MaterialsList> ListFromFileAsync(string filePath, 
+        public static async Task<LockedList> ListFromFileAsync(string filePath, 
             bool includeComments = false, bool trim = true)
         {
             return await Task.Run(() => ListFromFile(filePath, includeComments, trim));
@@ -120,7 +123,7 @@ namespace Leaf.Core.Collections.Generic
         /// <summary>
         /// Асинхронно создаёт потокобезопасную очередь строк из текстового файла. Десериализация проводится построчно.
         /// </summary>        
-        public static async Task<MaterialsQueue> QueueFromFileAsync(string filePath,
+        public static async Task<LockedQueue> QueueFromFileAsync(string filePath,
             bool includeComments = false, bool trim = true)
         {
             return await Task.Run(() => QueueFromFile(filePath, includeComments, trim));
@@ -157,7 +160,7 @@ namespace Leaf.Core.Collections.Generic
             }
         }
 
-        private static void ReadAndDeserialize<T>(MaterialsCollection<T> collection, string filePath, ThreadSafeUI ui,
+        private static void ReadAndDeserialize<T>(LockedCollection<T> collection, string filePath, ThreadSafeUI ui,
             bool includeComments, bool trim)
             where T : IStringSerializeable, new()
         {
@@ -171,7 +174,7 @@ namespace Leaf.Core.Collections.Generic
             });
         }
 
-        private static void ReadAndAppend(MaterialsCollection<string> collection, string filePath,
+        private static void ReadAndAppend(LockedCollection<string> collection, string filePath,
             bool includeComments, bool trim)
         {
             ReadFileLineByLine(filePath, includeComments, trim, (lineNumber, line) => {

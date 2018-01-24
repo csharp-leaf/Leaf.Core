@@ -1,5 +1,8 @@
 ﻿namespace Leaf.Core.Collections.Generic
 {
+    /// <summary>
+    /// Простейшая реализация построковой сериализации и десериализации объектов.
+    /// </summary>
     public interface IStringSerializeable
     {
         /// <summary>

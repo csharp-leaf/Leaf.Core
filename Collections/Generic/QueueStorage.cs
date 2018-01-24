@@ -2,10 +2,10 @@
 
 namespace Leaf.Core.Collections.Generic
 {
-    public class MaterialsStorageQueue<T> : Queue<T>, IMaterialsStorage<T>
+    public class QueueStorage<T> : Queue<T>, IStorage<T>
     {
         /// <inheritdoc />
-        void IMaterialsStorage<T>.AppendItem(T item)
+        void IStorage<T>.AppendItem(T item)
         {
             Enqueue(item);
         }

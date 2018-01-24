@@ -5,7 +5,7 @@ namespace Leaf.Core.Collections
     /// <summary>
     /// Определяет тип перечисления списка.
     /// </summary>
-    public enum MaterialsListIteration
+    public enum ListIteration
     {
         /// <summary>
         /// Список будет перечисляться пока не достигнет конца. Элементы не удаляются.
@@ -22,12 +22,12 @@ namespace Leaf.Core.Collections
     }
 
     /// <summary>
-    /// Потокобезопасный список строк-материалов.
+    /// Потокобезопасный список строк.
     /// </summary>
-    public class MaterialsList : MaterialsList<string>
+    public class LockedList : LockedList<string>
     {
         ///// <inheritdoc />
-        //public MaterialsList(IEnumerable<string> items) : base(items)
+        //public LockedList(IEnumerable<string> items) : base(items)
         //{
         //}      
     }

@@ -2,9 +2,9 @@
 
 namespace Leaf.Core.Collections.Generic
 {
-    public class MaterialsStorageList<T> : List<T>, IMaterialsStorage<T>
+    public class ListStorage<T> : List<T>, IStorage<T>
     {
-        public MaterialsListIteration Iteration = MaterialsListIteration.TillTheEnd;
+        public ListIteration Iteration = ListIteration.TillTheEnd;
         private int _currentIndex;
 
         /// <summary>
@@ -16,27 +16,27 @@ namespace Leaf.Core.Collections.Generic
         }
 
         /// <inheritdoc />
-        void IMaterialsStorage<T>.AppendItem(T item)
+        void IStorage<T>.AppendItem(T item)
         {
             Add(item);
         }
         
         /// <inheritdoc />
-        T IMaterialsStorage<T>.GetNext()
+        T IStorage<T>.GetNext()
         {
             if (Count == 0)
                 return default(T);
 
             if (_currentIndex >= Count)
             {
-                if (Iteration == MaterialsListIteration.TillTheEnd)
+                if (Iteration == ListIteration.TillTheEnd)
                     return default(T);
 
                 _currentIndex = 0;
             }
 
             var result = this[_currentIndex];
-            if (Iteration == MaterialsListIteration.Removable)
+            if (Iteration == ListIteration.Removable)
             {
                 RemoveAt(_currentIndex);
                 // Don't increment index!

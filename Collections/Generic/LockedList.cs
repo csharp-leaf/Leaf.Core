@@ -2,12 +2,13 @@
 
 namespace Leaf.Core.Collections.Generic
 {
+    /// <inheritdoc/>
     /// <summary>
-    /// Потокобезопасный список материалов.
+    /// Потокобезопасный список.
     /// </summary>
-    public class MaterialsList<T> : MaterialsCollection<T>
+    public class LockedList<T> : LockedCollection<T>
     {
-        protected readonly MaterialsStorageList<T> MaterialsStorageList = new MaterialsStorageList<T>();
+        protected readonly ListStorage<T> ListStorage = new ListStorage<T>();
         
         /// <summary>
         /// Изначальное число элементов. Назначение: подсчет прогресса.
@@ -16,46 +17,46 @@ namespace Leaf.Core.Collections.Generic
         public int StartCount { get; set; }
 
         /// <summary>
-        /// Создает новый список материалов.
+        /// Создает новый потокобезопасный список.
         /// </summary>
-        public MaterialsList()
+        public LockedList()
         {
-            MaterialsStorage = MaterialsStorageList;
+            Storage = ListStorage;
         }
 
         /// <summary>
-        /// Создает новый список материалов на основе перечислимой коллекции.
+        /// Создает новый потокобезопасный список на основе перечислимой коллекции.
         /// </summary>
         /// <param name="items">Элементы которые следует добавить в список</param>
-        public MaterialsList(IEnumerable<T> items) : this() // Вызываем базовый конструктор сначала
+        public LockedList(IEnumerable<T> items) : this() // Вызываем базовый конструктор сначала
         {
             foreach (var item in items)
-                MaterialsStorageList.Add(item);
+                ListStorage.Add(item);
         }
 
         /// <summary>
-        /// Возвращает следующий случайный материал из списка.
+        /// Возвращает следующий случайный элемент из списка.
         /// </summary>
         public T GetNextRandom()
         {
-            if (MaterialsStorage == null)
+            if (Storage == null)
                 return default(T);
 
-            lock (MaterialsStorage)
-                return MaterialsStorageList.GetNextRandom();
+            lock (Storage)
+                return ListStorage.GetNextRandom();
         }
 
         /// <summary>
         /// Устанавливает тип перечисления элементов списка.
         /// </summary>
-        public MaterialsListIteration Iteration {
+        public ListIteration Iteration {
             get {
-                lock (MaterialsStorage)
-                    return MaterialsStorageList.Iteration;
+                lock (Storage)
+                    return ListStorage.Iteration;
             }
             set {
-                lock (MaterialsStorage)
-                    MaterialsStorageList.Iteration = value;
+                lock (Storage)
+                    ListStorage.Iteration = value;
             }
         }
 
@@ -64,8 +65,8 @@ namespace Leaf.Core.Collections.Generic
         /// </summary>
         public void ResetPointer()
         {
-            lock (MaterialsStorageList)
-                MaterialsStorageList.ResetPointer();
+            lock (ListStorage)
+                ListStorage.ResetPointer();
         }
 
         /// <summary>
@@ -73,11 +74,11 @@ namespace Leaf.Core.Collections.Generic
         /// </summary>
         public bool Contains(T item)
         {
-            if (MaterialsStorage == null)
+            if (Storage == null)
                 return false;
 
-            lock (MaterialsStorage)
-                return MaterialsStorageList.Contains(item);
+            lock (Storage)
+                return ListStorage.Contains(item);
         }
 
         /// <summary>
@@ -87,11 +88,11 @@ namespace Leaf.Core.Collections.Generic
         /// <returns>Возвращает истину, если элемент был найден и удалён.</returns>
         public bool Remove(T item)
         {
-            if (MaterialsStorage == null)
+            if (Storage == null)
                 return false;
 
-            lock (MaterialsStorage)
-                return MaterialsStorageList.Remove(item);
+            lock (Storage)
+                return ListStorage.Remove(item);
         }
     }
 }

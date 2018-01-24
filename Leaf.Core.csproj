@@ -37,15 +37,15 @@
   <ItemGroup>
     <Compile Include="Collections\Generic\CollectionRandomizer.cs" />
     <Compile Include="Collections\Generic\IStringSerializeable.cs" />
-    <Compile Include="Collections\Generic\MaterialsFactory.cs" />
-    <Compile Include="Collections\Generic\MaterialsQueue.cs" />
-    <Compile Include="Collections\Generic\MaterialsList.cs" />
-    <Compile Include="Collections\Generic\IMaterialsStorage.cs" />
-    <Compile Include="Collections\Generic\MaterialsStorageList.cs" />
-    <Compile Include="Collections\Generic\MaterialsStorageQueue.cs" />
-    <Compile Include="Collections\Generic\MaterialsCollection.cs" />
-    <Compile Include="Collections\MaterialsList.cs" />
-    <Compile Include="Collections\MaterialsQueue.cs" />
+    <Compile Include="Collections\Generic\LockedFactory.cs" />
+    <Compile Include="Collections\Generic\LockedQueue.cs" />
+    <Compile Include="Collections\Generic\LockedList.cs" />
+    <Compile Include="Collections\Generic\IStorage.cs" />
+    <Compile Include="Collections\Generic\ListStorage.cs" />
+    <Compile Include="Collections\Generic\QueueStorage.cs" />
+    <Compile Include="Collections\Generic\LockedCollection.cs" />
+    <Compile Include="Collections\LockedList.cs" />
+    <Compile Include="Collections\LockedQueue.cs" />
     <Compile Include="ExternalServices\CaptchaException.cs" />
     <Compile Include="ExternalServices\Rucaptcha.cs" />
     <Compile Include="IO\BinarySerializer.cs" />

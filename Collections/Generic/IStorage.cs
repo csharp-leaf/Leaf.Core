@@ -1,6 +1,10 @@
 ﻿namespace Leaf.Core.Collections.Generic
 {
-    public interface IMaterialsStorage<T>
+    /// <summary>
+    /// Реализация потокобезопасного хранилища.
+    /// </summary>
+    /// <typeparam name="T">Тип хранимых объектов</typeparam>
+    public interface IStorage<T>
     {
         /// <summary>
         /// Число элементов в коллекции.
