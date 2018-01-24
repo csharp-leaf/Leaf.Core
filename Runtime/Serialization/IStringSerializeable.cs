@@ -1,4 +1,4 @@
-﻿namespace Leaf.Core.Collections.Generic
+﻿namespace Leaf.Core.Runtime.Serialization
 {
     /// <summary>
     /// Простейшая реализация построковой сериализации и десериализации объектов.
