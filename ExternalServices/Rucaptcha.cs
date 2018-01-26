@@ -8,6 +8,8 @@ using System.Threading;
 
 namespace Leaf.Core.ExternalServices
 {
+    // TODO: rewrite all code
+
     #region Captcha Helpers
     public static class NewStringMethods
     {
@@ -246,8 +248,7 @@ namespace Leaf.Core.ExternalServices
                     break;
                 }
 
-                _cancel.ThrowIfCancellationRequested();
-                Thread.Sleep(_waitMsecBeforeRequest);
+                _cancel.WaitHandle.WaitOne(_waitMsecBeforeRequest);
             }
             if (fatalError)
                 throw new Exception("Ошибка загрузки RuCaptcha: " + result);
@@ -256,8 +257,7 @@ namespace Leaf.Core.ExternalServices
 
             fatalError = true;
 
-            _cancel.ThrowIfCancellationRequested();
-            Thread.Sleep(_waitMsecBeforeRequest * 2);
+            _cancel.WaitHandle.WaitOne(_waitMsecBeforeRequest);
 
             for (int i = 0; i < _tryCountReady; i++)
             {
@@ -269,8 +269,7 @@ namespace Leaf.Core.ExternalServices
                     break;
                 }
 
-                _cancel.ThrowIfCancellationRequested();
-                Thread.Sleep(_waitMsecBeforeRequest);
+                _cancel.WaitHandle.WaitOne(_waitMsecBeforeRequest);
             }
 
             _cancel.ThrowIfCancellationRequested();
@@ -279,6 +278,7 @@ namespace Leaf.Core.ExternalServices
             
             return result.Replace("OK|", "").Trim().ToUpper();
         }
+
         public string RecognizeRecaptcha(string key, string url)
         {
             // http://rucaptcha.com/in.php?key=YOUR_CAPTCHA_KEY&method=userrecaptcha&googlekey=%googlekey%
@@ -305,8 +305,8 @@ namespace Leaf.Core.ExternalServices
                     fatalError = !result.Contains("OK|");
                     break;
                 }
-                _cancel.ThrowIfCancellationRequested();
-                Thread.Sleep(_waitMsecBeforeRequest);
+
+                _cancel.WaitHandle.WaitOne(_waitMsecBeforeRequest);
             }
 
             if (fatalError)
@@ -315,8 +315,7 @@ namespace Leaf.Core.ExternalServices
             _lastCaptchaId = result.Replace("OK|", "").Trim();
 
             fatalError = true;
-            _cancel.ThrowIfCancellationRequested();
-            Thread.Sleep(_waitMsecBeforeRequest * 2);
+            _cancel.WaitHandle.WaitOne(_waitMsecBeforeRequest * 2);
 
             for (int i = 0; i < _tryCountReady * 2; i++)
             {
@@ -327,15 +326,20 @@ namespace Leaf.Core.ExternalServices
                     fatalError = !result.Contains("OK|");
                     break;
                 }
-                _cancel.ThrowIfCancellationRequested();
-                Thread.Sleep(_waitMsecBeforeRequest);
+
+                _cancel.WaitHandle.WaitOne(_waitMsecBeforeRequest);
             }
 
             _cancel.ThrowIfCancellationRequested();
+
             if (fatalError)
-                throw new CaptchaException("Ошибка распознавания RuCaptcha: " + result ?? "unknown");
-            
-            return result.Replace("OK|", ""); // .Trim().ToUpper();
+                throw new CaptchaException("Ошибка распознавания RuCaptcha: " + result);
+
+            string answer = result.Replace("OK|", "");
+            if (string.IsNullOrEmpty(answer))
+                throw new CaptchaException("Ошибка распознавания RuCaptcha: возвращен пустой ответ");
+
+            return answer;
         }
         #endregion
 
