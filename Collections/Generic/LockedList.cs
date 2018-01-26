@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Leaf.Core.Collections.Generic
 {
@@ -93,6 +95,22 @@ namespace Leaf.Core.Collections.Generic
 
             lock (Storage)
                 return ListStorage.Remove(item);
+        }
+
+        public IEnumerable<T> Where(Func<T, bool> predicate)
+        {
+            lock (Storage)
+            {
+                return ListStorage.Where(predicate);
+            }
+        }
+
+        public IEnumerable<T> Where(Func<T, int, bool> predicate)
+        {
+            lock (Storage)
+            {
+                return ListStorage.Where(predicate);
+            }
         }
     }
 }

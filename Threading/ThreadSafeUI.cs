@@ -62,6 +62,25 @@ namespace Leaf.Core.Threading
         }
 
         /// <summary>
+        /// Ожидает указанное время или бросает исключение когда пользователь отменяет работу.
+        /// </summary>
+        /// <param name="millisecondsTimeout">Число миллисекунд для ожидания</param>
+        /// <exception cref="OperationCanceledException">Бросает исключение если работа прервана пользователем</exception>
+        public void SleepOrCancel(int millisecondsTimeout)
+        {
+            if (CancelToken.WaitHandle.WaitOne(millisecondsTimeout))
+                throw new OperationCanceledException(CancelToken);
+        }
+
+        /// <inheritdoc cref="SleepOrCancel(int)"/>
+        /// <param name="timeout">Время ожидания</param>
+        public void SleepOrCancel(TimeSpan timeout)
+        {
+            if (CancelToken.WaitHandle.WaitOne(timeout))
+                throw new OperationCanceledException(CancelToken);
+        }
+
+        /// <summary>
         /// Возвращает истину если работа была отменена пользователем.
         /// </summary>
         public bool IsCanceled => CancelToken.IsCancellationRequested;
