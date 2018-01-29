@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Collections.Generic;
+using System.Text;
 using Leaf.Core.Collections.Generic;
 
 namespace Leaf.Core.Collections
@@ -8,10 +9,11 @@ namespace Leaf.Core.Collections
     /// </summary>
     public class LockedQueue : LockedQueue<string>
     {
-        // /// <inheritdoc />
-        //public LockedQueue(IEnumerable<string> items) : base(items)
-        //{
-        // }
+        /// <inheritdoc />
+        public LockedQueue() {}
+
+        /// <inheritdoc />
+        public LockedQueue(IEnumerable<string> items) : base(items) {}
 
         /// <summary>
         /// Поочередно извлекает все элементы из очереди и записывает каждый в общую строку.

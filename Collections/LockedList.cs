@@ -1,4 +1,5 @@
-﻿using Leaf.Core.Collections.Generic;
+﻿using System.Collections.Generic;
+using Leaf.Core.Collections.Generic;
 
 namespace Leaf.Core.Collections
 {
@@ -26,9 +27,12 @@ namespace Leaf.Core.Collections
     /// </summary>
     public class LockedList : LockedList<string>
     {
-        ///// <inheritdoc />
-        //public LockedList(IEnumerable<string> items) : base(items)
-        //{
-        //}      
+        /// <inheritdoc />
+        public LockedList() { }
+
+        /// <inheritdoc />
+        public LockedList(IEnumerable<string> items) : base(items)
+        {
+        }
     }
 }
