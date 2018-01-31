@@ -1,33 +1,32 @@
-﻿// MODULES
-//
-#define TimeUtils
-#define JsonUnicode
-#define JsonParsing
-
-using System;
+﻿using System;
 using System.Collections.Generic;
-#if JsonUnicode
 using System.Text;
 using System.Text.RegularExpressions;
-#endif
 
 namespace Leaf.Core.Text
 {
-    public static class ExtString
+    public static class StringExtensions
     {
         /// <summary>
-        /// Проверяет содержит ли строка данные, т.е. не пуста и не является сплошными пробелами или отступами.
+        /// Проверяет содержит ли строка полезные данные, т.е. не пуста и не является сплошными пробелами или отступами.
         /// </summary>
         /// <param name="str">Строка</param>
         /// <returns>Возвращает истину если входная строка не пуста и не является сплошными пробелами или отступами.</returns>
         public static bool HasContent(this string str) => !string.IsNullOrWhiteSpace(str);
 
         /// <summary>
-        /// Проверка строки строки на пустоту
+        /// Проверка, является ли строка пустой или null.
         /// </summary>
         /// <param name="str">Строка</param>
         /// <returns>Возвращает истину если входная строка является null или пустотой ("").</returns>
         public static bool IsEmpty(this string str) => string.IsNullOrEmpty(str);
+
+        /// <summary>
+        /// Проверка строки на наличие символов (включая пробелы и отступы).
+        /// </summary>
+        /// <param name="str">Строка</param>
+        /// <returns>Возвращает истину если входная строка не является null или пустой строкой.</returns>
+        public static bool IsNotEmpty(this string str) => !string.IsNullOrEmpty(str);
 
         /// <summary>
         /// Вырезает несколько строк между двумя подстроками.
@@ -102,26 +101,21 @@ namespace Leaf.Core.Text
         public static string Sub(this string str, string left, string right,
             int startIndex = 0, StringComparison comparsion = StringComparison.Ordinal)
         {
-            if (!string.IsNullOrEmpty(str) &&
-                !string.IsNullOrEmpty(left) &&
-                !string.IsNullOrEmpty(right) &&
-                startIndex >= 0 && startIndex < str.Length)
-            {
+            if (string.IsNullOrEmpty(str) || string.IsNullOrEmpty(left) || string.IsNullOrEmpty(right) ||
+                startIndex < 0 || startIndex >= str.Length)
+                return string.Empty;
 
-                // Ищем начало позиции левой подстроки.
-                int leftPosBegin = str.IndexOf(left, startIndex, comparsion);
-                if (leftPosBegin != -1)
-                {
-                    // Вычисляем конец позиции левой подстроки.
-                    int leftPosEnd = leftPosBegin + left.Length;
-                    // Ищем начало позиции правой строки.
-                    int rightPos = str.IndexOf(right, leftPosEnd, comparsion);
+            // Ищем начало позиции левой подстроки.
+            int leftPosBegin = str.IndexOf(left, startIndex, comparsion);
+            if (leftPosBegin == -1)
+                return string.Empty;
 
-                    if (rightPos != -1)
-                        return str.Substring(leftPosEnd, rightPos - leftPosEnd);
-                }
-            }
-            return string.Empty;
+            // Вычисляем конец позиции левой подстроки.
+            int leftPosEnd = leftPosBegin + left.Length;
+            // Ищем начало позиции правой строки.
+            int rightPos = str.IndexOf(right, leftPosEnd, comparsion);
+
+            return rightPos != -1 ? str.Substring(leftPosEnd, rightPos - leftPosEnd) : string.Empty;
         }
 
         /// <summary>
@@ -136,50 +130,52 @@ namespace Leaf.Core.Text
         public static string LastSub(this string str, string right, string left,
             int startIndex = 0, StringComparison comparsion = StringComparison.Ordinal)
         {
-            if (!string.IsNullOrEmpty(str) &&
-                !string.IsNullOrEmpty(right) &&
-                !string.IsNullOrEmpty(left) &&
-                startIndex >= 0 && startIndex < str.Length)
-            {
-                // Ищем начало позиции правой подстроки.
-                int rightPosBegin = str.IndexOf(right, startIndex, comparsion);
-                if (rightPosBegin != -1)
-                {
-                    // Вычисляем начало позиции левой подстроки.
-                    int leftPos = str.LastIndexOf(left, rightPosBegin, comparsion);
-                    if (leftPos != -1)
-                        return str.Substring(leftPos + left.Length, rightPosBegin - leftPos);
-                }
-            }
-            return string.Empty;
+            if (string.IsNullOrEmpty(str) || string.IsNullOrEmpty(right) || string.IsNullOrEmpty(left) ||
+                startIndex < 0 || startIndex >= str.Length)
+                return string.Empty;
+
+            // Ищем начало позиции правой подстроки.
+            int rightPosBegin = str.IndexOf(right, startIndex, comparsion);
+            if (rightPosBegin == -1)
+                return string.Empty;
+
+            // Вычисляем начало позиции левой подстроки.
+            int leftPos = str.LastIndexOf(left, rightPosBegin, comparsion);
+            return leftPos != -1 ? str.Substring(leftPos + left.Length, rightPosBegin - leftPos) : string.Empty;
         }
 
         /// <summary>
         /// Преобразовывает первую букву в верхний реестр
         /// </summary>
         /// <param name="s">Строка которая должна быть с первой заглавной буквой</param>
-        /// <returns>Строка с первой заглавной буквой</returns>
-        public static string ToUpperFirst(this string s)
+        /// <param name="useToLower">Следует ли преобразовавать все символы кроме первого в нижний реестр.</param>
+        /// <returns>Строка с первой заглавной буквой. Остальные символы не будут изменены если задан <see cref="useToLower"/> = false.</returns>
+        public static string ToUpperFirst(this string s, bool useToLower = true)
         {
             if (string.IsNullOrEmpty(s))
                 return string.Empty;
 
-            return char.ToUpper(s[0]) + s.Substring(1).ToLower();
+            char firstLetter = char.ToUpper(s[0]);
+            string otherWords = s.Substring(1);
+           
+            if (useToLower)
+                otherWords = otherWords.ToLower();
+
+            return firstLetter + otherWords;
         }
 
-
-#if JsonParsing
-        public static string GetJsonValue(this string resp, string key, bool escape = false, string endsWith = ",\"")
+        /// <summary>
+        /// Получает из JSON значение нужного ключа.
+        /// </summary>
+        /// <param name="json">JSON строка</param>
+        /// <param name="key">ключ</param>
+        /// <param name="endsWith"></param>
+        /// <returns></returns>
+        public static string GetJsonValue(this string json, string key, string endsWith = ",\"")
         {
-            string result = resp.Sub("\"" + key + "\":", endsWith).Trim('"', '\r', '\n', '\t');
-            if (string.IsNullOrEmpty(result))
-                return string.Empty;
-
-            return !escape ? result : Uri.EscapeDataString(result);
+            return json.Sub("\"" + key + "\":", endsWith).Trim('"', '\r', '\n', '\t');
         }
-#endif
 
-#if JsonUnicode
         /// <summary>
         /// Преобразовывает юникод символы строки в вид \u0000.
         /// </summary>
@@ -197,9 +193,7 @@ namespace Leaf.Core.Text
                     sb.Append(encodedValue);
                 }
                 else
-                {
                     sb.Append(c);
-                }
             }
             return sb.ToString();
         }
@@ -216,29 +210,23 @@ namespace Leaf.Core.Text
                     v => ((char) Convert.ToInt32(v.Groups[1].Value, 16)).ToString())
                 : string.Empty;
         }
-#endif
-
-#if EncodingConvert
-        // TODO: move to static class encoding
+        
         /// <summary>
         /// Преобразовывает текст из кодировки Windows-1251 в UTF8
         /// </summary>
         /// <param name="source">Текст который нужно преобразовать</param>
         /// <returns>Текст в кодировке UTF8</returns>
-        public static string FromWin1251ToUTF8(this string source)
+        public static string Win1251ToUTF8(this string source)
         {
-            Encoding win1251 = Encoding.GetEncoding("Windows-1251");
+            var win1251 = Encoding.GetEncoding("Windows-1251");
 
-            byte[] utf8Bytes = win1251.GetBytes(source);
-            byte[] win1251Bytes = Encoding.Convert(Encoding.UTF8, win1251, utf8Bytes);
-            source = win1251.GetString(win1251Bytes);
-            return source;
+            var utf8Bytes = win1251.GetBytes(source);
+            var win1251Bytes = Encoding.Convert(Encoding.UTF8, win1251, utf8Bytes);
+
+            return win1251.GetString(win1251Bytes);
         }
-#endif
 
-#if TimeUtils
         private static readonly DateTime Jan1St1970 = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-        public static ulong MillisecondsFrom1970 => (ulong) (DateTime.UtcNow - Jan1St1970).TotalMilliseconds;        
-#endif
+        public static ulong MillisecondsFrom1970 => (ulong) (DateTime.UtcNow - Jan1St1970).TotalMilliseconds;
     }
 }

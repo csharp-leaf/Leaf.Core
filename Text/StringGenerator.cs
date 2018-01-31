@@ -5,38 +5,118 @@ namespace Leaf.Core.Text
 {
     public static class StringGenerator
     {
-        private static readonly Random Rnd = new Random();
+        [ThreadStatic] private static Random _rand;
+        private static Random Rand => _rand ?? (_rand = new Random());
 
-        // добавляем прилагательное
+        // Прилагательные / глаголы
         private static readonly string[] Adjectives = {
-            "able", "active", "actual", "afraid", "alive", "all", "alone", "angry", "annual", "any", "apart", "asleep", "aware", "away", "basic", "best", "better", "big", "bitter", "boring", "both", "brave", "brief", "bright", "broad", "brown", "busy", "calm", "cheap", "civil", "clean", "clear", "cold", "common", "cool", "corner", "crazy", "cute", "dark", "dear", "decent", "deep", "direct", "dirty", "double", "drunk", "dry", "due", "each", "east", "easy", "either", "empty", "enough", "entire", "equal", "even", "every", "exact", "expert", "extra", "fair", "false", "famous", "far", "fast", "fat", "few", "final", "fine", "firm", "first", "fit", "flat", "formal", "free", "fresh", "front", "full", "fun", "funny", "future", "game", "glad", "glass", "global", "gold", "good", "grand", "great", "green", "gross", "guilty", "happy", "hard", "head", "heavy", "high", "his", "home", "honest", "horror", "hot", "huge", "hungry", "ideal", "inner", "joint", "just", "kind", "known", "large", "last", "late", "latter", "least", "left", "legal", "less", "life", "little", "living", "local", "lonely", "long", "loose", "lost", "loud", "low", "lower", "lucky", "mad", "main", "major", "male", "many", "master", "mean", "medium", "mental", "middle", "minor", "minute", "mobile", "more", "most", "mother", "much", "narrow", "nasty", "native", "nearby", "neat", "new", "next", "nice", "normal", "north", "novel", "odd", "old", "only", "other", "over", "own", "past", "plenty", "pretty", "prior", "public", "pure", "purple", "quick", "quiet", "rare", "raw", "real", "recent", "red", "remote", "rich", "right", "rough", "round", "royal", "sad", "same", "scared", "secret", "secure", "senior", "severe", "sexual", "sharp", "short", "shot", "signal", "silly", "silver", "simple", "single", "slight", "slow", "small", "smart", "smooth", "soft", "solid", "south", "spare", "square", "still", "stock", "street", "strict", "strong", "stupid", "such", "sudden", "super", "sure", "sweet", "tall", "that", "these", "thick", "thin", "think", "this", "tight", "time", "tiny", "top", "total", "tough", "trick", "true", "ugly", "unable", "unfair", "unique", "united", "upper", "upset", "used", "useful", "usual", "vast", "visual", "warm", "waste", "weak", "weekly", "weird", "west", "what", "which", "white", "whole", "wide", "wild", "wine", "winter", "wise", "wooden", "work", "worth", "wrong", "yellow"
+            "active", "actual", "alive", "alone", "angry", "any", "aware", "basic", "best", "big", "boring", "brave", "brief", "bright", "brown", "busy", "cheap", "clean", "cold", "common", "cool", "crazy", "cute", "dark", "dear", "deep", "direct", "dirty", "double", "drunk", "dry", "easy", "empty", "entire", "equal", "every", "exact", "expert", "extra", "fair", "famous", "far", "fast", "final", "fine", "first", "fit", "flat", "formal", "free", "fresh", "front", "full", "fun", "funny", "glad", "glass", "global", "gold", "good", "grand", "great", "green", "gross", "guilty", "happy", "hard", "head", "heavy", "high", "honest", "hot", "huge", "hungry", "ideal", "inner", "just", "kind", "known", "large", "last", "late", "least", "left", "legal", "little", "living", "lonely", "long", "lost", "loud", "low", "lucky", "mad", "main", "major", "medium", "mental", "middle", "minor", "more", "most", "much", "narrow", "nasty", "native", "nearby", "neat", "new", "next", "nice", "normal", "north", "novel", "other", "over", "past", "plenty", "pretty", "prior", "public", "pure", "purple", "quick", "quiet", "rare", "raw", "real", "recent", "red", "remote", "rich", "right", "round", "royal", "sad", "scared", "secret", "secure", "senior", "sharp", "short", "signal", "silver", "simple", "single", "slight", "slow", "small", "smart", "smooth", "soft", "solid", "south", "stock", "strict", "strong", "such", "super", "sweet", "thin", "tight", "tiny", "top", "unfair", "unique", "united", "usual", "visual", "warm", "waste", "weird", "white", "wide", "wild", "wise", "wooden", "worth", "wrong", "yellow"
         };
 
-        // добавляем существительное
+        // Существительные
         private static readonly string[] Nouns = {
-            "access", "act", "action", "actor", "ad", "advice", "affair", "age", "agency", "air", "amount", "answer", "apple", "area", "army", "art", "aspect", "back", "bad", "bank", "basis", "basket", "bath", "beer", "bird", "birth", "blood", "board", "boat", "body", "bonus", "book", "boss", "box", "bread", "breath", "bus", "buyer", "camera", "cancer", "car", "card", "care", "case", "cash", "cause", "cell", "chance", "cheek", "chest", "child", "church", "city", "class", "client", "coast", "coffee", "cookie", "county", "course", "cousin", "craft", "cycle", "dad", "data", "day", "dealer", "death", "debt", "demand", "depth", "design", "desk", "device", "dinner", "dirt", "disk", "dog", "drama", "drawer", "driver", "ear", "earth", "editor", "effort", "end", "energy", "engine", "entry", "error", "estate", "event", "exam", "extent", "eye", "face", "fact", "family", "farmer", "fat", "field", "figure", "film", "fire", "fish", "flight", "focus", "food", "force", "form", "frame", "fun", "future", "game", "garden", "gate", "gene", "girl", "goal", "group", "growth", "guest", "guide", "guitar", "hair", "half", "hall", "hand", "hat", "head", "health", "heart", "heat", "height", "home", "honey", "hotel", "house", "idea", "image", "income", "injury", "insect", "inside", "issue", "item", "job", "key", "kind", "king", "lab", "ladder", "lady", "lake", "law", "leader", "length", "level", "life", "light", "line", "list", "loss", "love", "mall", "man", "map", "market", "math", "matter", "meal", "meat", "media", "member", "memory", "menu", "method", "mind", "mode", "model", "mom", "moment", "money", "month", "mood", "mouse", "movie", "mud", "music", "name", "nation", "nature", "news", "night", "note", "number", "object", "office", "oil", "orange", "order", "oven", "owner", "page", "paper", "part", "people", "period", "person", "phone", "photo", "piano", "pie", "piece", "pizza", "place", "plan", "player", "poem", "poet", "poetry", "point", "police", "policy", "potato", "power", "price", "profit", "queen", "radio", "range", "rate", "ratio", "reason", "recipe", "record", "region", "rent", "result", "risk", "river", "road", "rock", "role", "rule", "safety", "salad", "salt", "sample", "scale", "scene", "school", "sector", "sense", "series", "shirt", "side", "singer", "sir", "sister", "site", "size", "skill", "soil", "son", "song", "sound", "soup", "source", "space", "speech", "speed", "sport", "state", "steak", "step", "stock", "store", "story", "stress", "studio", "study", "style", "sun", "system", "tale", "tax", "tea", "tennis", "term", "test", "thanks", "theory", "thing", "throat", "time", "tongue", "tooth", "top", "topic", "town", "trade", "truth", "two", "type", "uncle", "union", "unit", "user", "value", "video", "virus", "volume", "war", "water", "way", "wealth", "web", "week", "while", "wife", "winner", "woman", "wood", "word", "work", "worker", "world", "writer", "year", "youth"
+            "access", "act", "action", "actor", "affair", "agency", "air", "answer", "apple", "area", "army", "art", "aspect", "basket", "bird", "blood", "board", "boat", "book", "boss", "box", "breath", "card", "case", "cash", "cause", "chance", "cheek", "child", "church", "coast", "coffee", "cookie", "data", "dealer", "demand", "depth", "design", "desk", "device", "dog", "drawer", "driver", "end", "energy", "entry", "error", "estate", "event", "extent", "fact", "farmer", "figure", "fire", "fish", "focus", "force", "form", "frame", "future", "game", "garden", "gate", "girl", "goal", "group", "hat", "heart", "house", "idea", "image", "insect", "item", "job", "key", "king", "lab", "lady", "lake", "law", "leader", "level", "life", "line", "list", "loss", "love", "man", "math", "media", "member", "memory", "mind", "model", "moment", "money", "mouse", "movie", "nation", "night", "note", "number", "order", "page", "paper", "people", "person", "phone", "photo", "pizza", "player", "point", "power", "queen", "reason", "recipe", "record", "risk", "river", "road", "rock", "rule", "sample", "sense", "sir", "song", "sound", "source", "sport", "store", "story", "studio", "style", "tale", "term", "theory", "thing", "time", "trade", "truth", "unit", "user", "virus", "war", "way", "web", "winner", "woman", "world", "writer"
         };
 
-        public static string Random(bool password = false, bool numbers = true)
+        private static void AppendRandomNumbers(this StringBuilder sb, int minDigits, int maxDigits)
         {
-            var word = new StringBuilder();
+            // проверка параметров
+            if (minDigits > maxDigits || maxDigits < minDigits) // || minDigits == 0 || maxDigits == 0
+                throw new ArgumentException("Неверно заданы количесво цифр для добавления в StringBuilder");
 
-            string adj = Adjectives[Rnd.Next(Adjectives.Length - 1)];
-            if (password)
-                adj = adj.ToUpperFirst();
-            word.Append(adj);
+            // частная оптимизация
+            if (minDigits == 1 && maxDigits == 1)
+            {
+                sb.Append(Rand.Next(0, 9));
+                return;
+            }
 
-            string noun = Nouns[Rnd.Next(Nouns.Length - 1)];
-            if (password)
-                noun = noun.ToUpperFirst();
-            word.Append(noun);
+            // получаем предел в соответствии с максимальным количеством цифр max = 10 ^ maxDigits - 1;
+            int max = 1;
+            for (int i = 0; i < maxDigits; i++)
+                max *= 10;
 
-            // добавляем число в конце
-            if (numbers)
-                word.Append(password ? Rnd.Next(10, 99).ToString() : Rnd.Next(100, 9999).ToString());
+            // дополняем нулями минимальную длинну цифр
+            string random = Rand.Next(0, max - 1).ToString();
+            int randomLength = random.Length;
+
+            while (randomLength < minDigits)
+            {
+                sb.Append('0');
+                ++randomLength;
+            }
+
+            sb.Append(random);
+        }
+
+        /// <summary>
+        /// Генерирует случайную строку.
+        /// </summary>
+        /// <param name="wordUpperFirst">Каждое слово должно быть с большой буквы</param>
+        /// <param name="minDigits">Минимальное число цифр в конце строки</param>
+        /// <param name="maxDigits">Минимальное число цифр в конце строки</param>
+        /// <remarks>
+        /// Если указать в качестве аргументов нули - цифры не будут добавлены.
+        /// </remarks>
+        /// <param name="wordSeparator">Разделитель между словами</param>
+        public static string Random(bool wordUpperFirst = false, int minDigits = 0, int maxDigits = 0, string wordSeparator = null)
+        {
+            var result = new StringBuilder();
+
+            // добавляем прилагательное или глагол
+            string adj = Adjectives[Rand.Next(Adjectives.Length - 1)];
+            if (wordUpperFirst)
+                adj = adj.ToUpperFirst(false); // (оптимизационный выхов) только 1я заглавная, остальные буквы без изменений
+            result.Append(adj);
+
+            // добавляем разделитель если он установлен
+            if (wordSeparator != null)
+                result.Append(wordSeparator);
+
+            // добавляем существительное
+            string noun = Nouns[Rand.Next(Nouns.Length - 1)];
+            if (wordUpperFirst)
+                noun = noun.ToUpperFirst(false); // (оптимизационный выхов) только 1я заглавная, остальные буквы без изменений
+            result.Append(noun);
+
+            // добавляем число в конце если нужно
+            if (minDigits != 0 && maxDigits != 0)
+                result.AppendRandomNumbers(minDigits, maxDigits);
 
             // возвращаем результат
-            return word.ToString();
+            return result.ToString();
+        }
+
+        /// <summary>
+        /// Генерирует легко читаемый логин для ресурса. В конце логина добавляются от 1 до 3 случайных цифр.
+        /// </summary>
+        /// <param name="wordSeparator">Разделитель между словами</param>
+        public static string RandomLogin(string wordSeparator = null)
+        {
+            return Random(false, 1, 3, wordSeparator);
+        }
+
+        /// <summary>
+        /// Генерирует легко читаемый случайный пароль c двумя цифрами на конце.
+        /// Каждое слово в пароле пишется с заглавной буквы, без разделителя.
+        /// </summary>
+        public static string RandomPassword()
+        {
+            return Random(true, 2, 2);
+        }
+
+        /// <summary>
+        /// Генерирует легко читаемый случайный пароль c нужным количеством цифр на конце.
+        /// Каждое слово в пароле пишется с заглавной буквы, без разделителя.
+        /// </summary>
+        /// <param name="minDigits">Минимальное число цифр в конце пароля</param>
+        /// <param name="maxDigits">Минимальное число цифр в конце пароля</param>
+        /// <remarks>
+        /// Если указать в качестве аргументов нули - цифры не будут добавлены.
+        /// </remarks>
+        public static string RandomPassword(int minDigits, int maxDigits)
+        {
+            return Random(true, minDigits, maxDigits);
         }
     }
 }
