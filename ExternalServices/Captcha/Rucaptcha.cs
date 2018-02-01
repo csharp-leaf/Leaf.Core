@@ -5,6 +5,7 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Threading;
+using Leaf.Core.ExternalServices.Captcha;
 
 namespace Leaf.Core.ExternalServices
 {
