@@ -139,6 +139,12 @@ namespace Leaf.Core.Collections.Generic
 
         private static void ReadFileLineByLine(string filePath, bool includeComments, bool trim, LineProcessor lineProcessor)
         {
+            if (!File.Exists(filePath))
+            {
+                File.Create(filePath).Close();
+                return;
+            }
+
             using (var file = new StreamReader(filePath))
             {
                 ulong lineNumber = 0;
