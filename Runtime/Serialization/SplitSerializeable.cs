@@ -1,10 +1,11 @@
-﻿using Leaf.Core.Collections.Generic;
-
-namespace Leaf.Core.Runtime.Serialization
-{
-    internal abstract class SplitSerializeable : IStringSerializeable
+﻿namespace Leaf.Core.Runtime.Serialization
+{ 
+    public abstract class SplitSerializeable : IStringSerializeable
     {
-        protected const string Splitter = " = ";
+        /// <summary>
+        /// Разделитель между значениями. По умолчанию равен " = ".
+        /// </summary>
+        protected virtual string Splitter { get; } = " = ";
 
         /// <inheritdoc />
         public abstract string SerializeToString();

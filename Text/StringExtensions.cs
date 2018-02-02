@@ -29,6 +29,17 @@ namespace Leaf.Core.Text
         public static bool IsNotEmpty(this string str) => !string.IsNullOrEmpty(str);
 
         /// <summary>
+        /// Проверяет наличие слова в строке, аналогично <see cref="string.Contains"/>, но без учета реестра и региональных стандартов.
+        /// </summary>
+        /// <param name="str">Строка для поиска слова</param>
+        /// <param name="value">Слово которое должно содержаться в строке</param>
+        /// <returns>Вернет истину если значение было найдено в строке</returns>
+        public static bool ContainsIgnoreCase(this string str, string value)
+        {
+            return str.IndexOf(value, StringComparison.OrdinalIgnoreCase) != -1;
+        }
+
+        /// <summary>
         /// Вырезает несколько строк между двумя подстроками.
         /// </summary>
         /// <param name="str">Строка где следует искать подстроки</param>
