@@ -311,7 +311,7 @@ namespace Leaf.Core.ExternalServices
             }
 
             if (fatalError)
-                throw new Exception("Ошибка загрузки RuCaptcha: " + result);
+                throw new CaptchaException("Ошибка загрузки RuCaptcha: " + result);
 
             _lastCaptchaId = result.Replace("OK|", "").Trim();
 
