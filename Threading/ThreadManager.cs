@@ -147,14 +147,14 @@ namespace Leaf.Core.Threading
                 if (_threads != null && _threads.Count > 0)
                     _threads.Remove(Thread.CurrentThread);
 
-                if (activeThreads <= 0 && !_done)
-                {
-                    _done = true;                    
-                    Done?.Invoke();
+                if (activeThreads > 0 || _done)
+                    return;
 
-                    _ui.SetProgress();
-                    _ui.EnableUI();
-                }
+                _done = true;                    
+                Done?.Invoke();
+
+                _ui.SetProgress();
+                _ui.EnableUI();
             }
         }
     }
