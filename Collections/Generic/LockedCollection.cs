@@ -4,7 +4,7 @@
     /// Абстрактная реализация потокобезопасной коллекции.
     /// </summary>
     /// <typeparam name="T">Тип хранимых объектов</typeparam>
-    public abstract class LockedCollection<T>
+    public abstract class LockedCollection<T> // TODO : IEnumerable<T>
     {
         /// <summary>
         /// Коллекция реализующая общие методы для работы с элементами.
@@ -65,6 +65,6 @@
 
             lock (Storage)
                 Storage.AppendItem(item);
-        }        
+        }
     }
 }

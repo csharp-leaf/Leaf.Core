@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Leaf.Core.Collections.Generic
 {
+    // TODO: use object lockers. Different for read and write.
+    // TODO: concurrent alternatives http://www.c-sharpcorner.com/article/thread-safe-concurrent-collection-in-C-Sharp/
+
     /// <inheritdoc/>
     /// <summary>
     /// Потокобезопасный список.
@@ -111,6 +115,20 @@ namespace Leaf.Core.Collections.Generic
             {
                 return ListStorage.Where(predicate);
             }
+        }
+
+        public T First(Func<T, bool> predicate)
+        {
+            lock (Storage)
+            {
+                return ListStorage.First(predicate);
+            }
+        }
+
+        public ListStorage<T> GetUnsafeStorage()
+        {
+            return ListStorage;
+            var test = new ConcurrentBag<string>();
         }
     }
 }

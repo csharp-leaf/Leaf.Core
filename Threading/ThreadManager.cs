@@ -45,13 +45,13 @@ namespace Leaf.Core.Threading
         {
             _ui = ui;
         }
-
+        
         /// <summary>
         /// Запустить многопоточную работу.
         /// </summary>
         /// <param name="threadCount">Число потоков</param>
-        /// <param name="args">Параметры, передаваемые в каждый поток при запуске</param>
-        public void Start(uint threadCount, object args = null)
+        /// <param name="args">Массив уникальных параметров для каждого потока</param>
+        public void Start(uint threadCount, object[] args = null)
         {
             if (_activeThreads > 0)
             {
@@ -72,7 +72,7 @@ namespace Leaf.Core.Threading
             _ui.EnableUI(false);
             _ui.SetProgress(); // Сбрасываем полоску прогресса
             _threads.Clear();
-            
+
             // Пересоздаем объект отмены            
             _cancel?.Dispose();
             _cancel = new CancellationTokenSource();
@@ -85,7 +85,12 @@ namespace Leaf.Core.Threading
                     IsBackground = true,
                     Name = (i + 1).ToString()
                 };
-                thread.Start(args);
+
+                if (args == null || i >= args.Length)
+                    thread.Start();
+                else
+                    thread.Start(args[i]);
+                
                 _threads.Add(thread);
             }
         }
