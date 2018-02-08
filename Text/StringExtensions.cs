@@ -135,24 +135,35 @@ namespace Leaf.Core.Text
         /// <param name="str">Строка где следует искать подстроки</param>
         /// <param name="right">Конечная подстрока</param>
         /// <param name="left">Начальная подстрока</param>
-        /// <param name="startIndex">Искать начиная с индекса</param>
+        /// <param name="startIndex">Искать начиная с индекса
+        /// <remarks>Если указано значение -1, поиск ведется с самого конца строки</remarks>
+        /// </param>
         /// <param name="comparsion">Метод сравнения строк</param>
         /// <returns>Возвращает строку между двумя подстроками</returns>
         public static string LastSub(this string str, string right, string left,
-            int startIndex = 0, StringComparison comparsion = StringComparison.Ordinal)
+            int startIndex = -1, StringComparison comparsion = StringComparison.Ordinal)
         {
             if (string.IsNullOrEmpty(str) || string.IsNullOrEmpty(right) || string.IsNullOrEmpty(left) ||
-                startIndex < 0 || startIndex >= str.Length)
+                startIndex < -1 || startIndex >= str.Length)
                 return string.Empty;
 
-            // Ищем начало позиции правой подстроки.
-            int rightPosBegin = str.IndexOf(right, startIndex, comparsion);
-            if (rightPosBegin == -1)
+            if (startIndex == -1)
+                startIndex = str.Length - 1;
+
+            // Ищем начало позиции правой подстроки с конца строки
+            int rightPosBegin = str.LastIndexOf(right, startIndex, comparsion);
+            if (rightPosBegin == -1 || rightPosBegin == 0) // в обратном поиске имеет смысл проверять на 0
                 return string.Empty;
 
-            // Вычисляем начало позиции левой подстроки.
-            int leftPos = str.LastIndexOf(left, rightPosBegin, comparsion);
-            return leftPos != -1 ? str.Substring(leftPos + left.Length, rightPosBegin - leftPos) : string.Empty;
+            // Вычисляем начало позиции левой подстроки
+            int leftPosBegin = str.LastIndexOf(left, rightPosBegin - 1, comparsion);
+            // Если не найден левый конец или правая и левая подстрока склеены вместе - вернем пустую строку
+            if (leftPosBegin == -1 || rightPosBegin - leftPosBegin == 1)
+                return string.Empty;
+
+            int leftPosEnd = leftPosBegin + 1;
+
+            return str.Substring(leftPosEnd, rightPosBegin - leftPosEnd);
         }
 
         /// <summary>
