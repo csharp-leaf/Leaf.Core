@@ -54,6 +54,7 @@
     <Compile Include="Runtime\Serialization\SplitSerializeable.cs" />
     <Compile Include="Text\StringExtensions.cs" />
     <Compile Include="Text\StringGenerator.cs" />
+    <Compile Include="Text\StringHtmlExtensions.cs" />
     <Compile Include="Threading\TaskPanicException.cs" />
     <Compile Include="Threading\TaskRepeatException.cs" />
     <Compile Include="Threading\TaskSkipException.cs" />

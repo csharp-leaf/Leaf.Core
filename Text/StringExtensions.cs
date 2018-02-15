@@ -187,6 +187,27 @@ namespace Leaf.Core.Text
         }
 
         /// <summary>
+        /// Проверяет наличие строки в массиве или списке, с правил сравнения строк.
+        /// </summary>
+        /// <param name="self">Массив или список где следует искать значение</param>
+        /// <param name="value">Значение для поиска</param>
+        /// <param name="comparison">Правило сравнения строк</param>
+        /// <returns>Вернет истину если элемент был найден</returns>
+        public static bool Contains(this IReadOnlyList<string> self, string value, StringComparison comparison)
+        {
+            // Faster manual code
+            // ReSharper disable once ForCanBeConvertedToForeach
+            // ReSharper disable once LoopCanBeConvertedToQuery
+            for (int i = 0; i < self.Count; i++)
+            {
+                if (self[i].Equals(value, comparison))
+                    return true;
+            }
+
+            return false;
+        }
+        
+        /// <summary>
         /// Получает из JSON значение нужного ключа.
         /// </summary>
         /// <param name="json">JSON строка</param>
@@ -211,8 +232,7 @@ namespace Leaf.Core.Text
                 if (c > 127)
                 {
                     // This character is too big for ASCII
-                    string encodedValue = "\\u" + ((int)c).ToString("x4");
-                    sb.Append(encodedValue);
+                    sb.Append("\\u" + ((int)c).ToString("x4"));
                 }
                 else
                     sb.Append(c);
@@ -248,7 +268,9 @@ namespace Leaf.Core.Text
             return win1251.GetString(win1251Bytes);
         }
 
+        /*
         private static readonly DateTime Jan1St1970 = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
         public static ulong MillisecondsFrom1970 => (ulong) (DateTime.UtcNow - Jan1St1970).TotalMilliseconds;
+        */
     }
 }
