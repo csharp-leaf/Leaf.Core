@@ -37,6 +37,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Collections\Generic\CollectionRandomizer.cs" />
+    <Compile Include="Patterns\Singleton.cs" />
     <Compile Include="Runtime\Serialization\IStringSerializeable.cs" />
     <Compile Include="Collections\Generic\LockedFactory.cs" />
     <Compile Include="Collections\Generic\LockedQueue.cs" />
