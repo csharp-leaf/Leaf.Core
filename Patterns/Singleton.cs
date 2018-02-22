@@ -11,8 +11,7 @@
         private static volatile T _instance;
 
         // Внимание: SyncObject будет уникален для каждого типа T.
-        // эта особенность позволяет эффективно реализовать Singleton.
-
+        // эта особенность позволяет эффективно реализовать Singleton абстрактно.
         // ReSharper disable once StaticMemberInGenericType
         private static readonly object SyncObj = new object();
 

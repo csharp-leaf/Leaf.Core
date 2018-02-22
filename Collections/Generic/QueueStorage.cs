@@ -5,7 +5,7 @@ namespace Leaf.Core.Collections.Generic
     public class QueueStorage<T> : Queue<T>, IStorage<T>
     {
         /// <inheritdoc />
-        void IStorage<T>.AppendItem(T item)
+        public void AppendItem(T item)
         {
             Enqueue(item);
         }

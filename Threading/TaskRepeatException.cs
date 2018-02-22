@@ -7,6 +7,7 @@ namespace Leaf.Core.Threading
     /// Возникает если опциональная задача
     /// Исключение не должно вызывать остановку конвеера
     /// </summary>
+    [Serializable]
     public class TaskRepeatException : Exception
     {
         public TaskRepeatException(string message) : base(message)

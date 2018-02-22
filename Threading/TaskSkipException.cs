@@ -7,6 +7,7 @@ namespace Leaf.Core.Threading
     /// Возникает если опциональная задача 
     /// Исключение не должно вызывать остановку конвеера
     /// </summary>
+    [Serializable]
     public class TaskSkipException : Exception
     {
         public TaskSkipException(string message) : base(message)

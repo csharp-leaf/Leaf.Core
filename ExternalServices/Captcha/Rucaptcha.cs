@@ -345,7 +345,7 @@ namespace Leaf.Core.ExternalServices
         #endregion
 
         #region Destructor
-        bool _disposed;
+        private bool _disposed;
         // Public implementation of Dispose pattern callable by consumers.
         public void Dispose()
         {
@@ -360,7 +360,7 @@ namespace Leaf.Core.ExternalServices
                 return;
 
             if (disposing)
-                _webClient?.Dispose();
+                _webClient.Dispose();
 
             // Free any unmanaged objects here.
             //

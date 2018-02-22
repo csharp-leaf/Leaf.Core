@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 
 namespace Leaf.Core.Threading
@@ -6,25 +7,25 @@ namespace Leaf.Core.Threading
     /// <summary>
     /// Обработчик события возникающего в случае завершения работы всех потоков.
     /// </summary>
-    public delegate void ThreadsDoneEventHandler();
+    //public delegate void ThreadsDoneEventHandler();
     /// <summary>
     /// Обработчик события возникающего перед запуском потоков.
     /// </summary>
-    public delegate void ThreadsBeforeStartHandler();
+    // public delegate void ThreadsBeforeStartHandler();
 
     /// <summary>
     /// Реализация менеджера потоков, включая общие события, потокобезопасную работу с интерфейсом, остановку и принудительную остановку работы.
     /// </summary>
-    public abstract class ThreadManager
+    public abstract class ThreadManager : IDisposable
     {
         /// <summary>
         /// Срабатывает в случае завершения работы всех потоков.
         /// </summary>
-        protected event ThreadsDoneEventHandler Done;
+        protected Action Done;
         /// <summary>
         /// Срабатывает в перед запуском потоков.
         /// </summary>
-        protected event ThreadsBeforeStartHandler BeforeStart;
+        protected Action BeforeStart;
 
         private readonly ThreadSafeUI _ui;
         private CancellationTokenSource _cancel;
@@ -76,6 +77,7 @@ namespace Leaf.Core.Threading
             // Пересоздаем объект отмены            
             _cancel?.Dispose();
             _cancel = new CancellationTokenSource();
+
             _ui.CancelToken = _cancel.Token;
 
             for (uint i = 0; i < threadCount; i++)
@@ -112,7 +114,7 @@ namespace Leaf.Core.Threading
             _ui.Log("Принудительное завершение потоков...");
 
             // завершаем потоки
-            foreach (Thread thread in _threads)
+            foreach (var thread in _threads)
                 thread.Abort();
 
             _threads.Clear();
@@ -162,5 +164,27 @@ namespace Leaf.Core.Threading
                 _ui.EnableUI();
             }
         }
+
+        #region IDisposable Support
+        private bool _disposed; // Для определения избыточных вызовов
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (_disposed)
+                return;
+
+            if (disposing && _cancel != null)
+                _cancel.Dispose();
+
+            _disposed = true;
+        }
+
+        // Этот код добавлен для правильной реализации шаблона высвобождаемого класса.
+        public void Dispose()
+        {
+            // Не изменяйте этот код. Разместите код очистки выше, в методе Dispose(bool disposing).
+            Dispose(true);
+        }
+        #endregion
     }
 }

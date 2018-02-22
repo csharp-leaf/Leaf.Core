@@ -6,6 +6,7 @@ namespace Leaf.Core.Threading
     /// <summary>
     /// Критическая ошибка конвеера. Вызывает его остановку.
     /// </summary>
+    [Serializable]
     public class TaskPanicException : Exception
     {
         public TaskPanicException(string message) : base(message)

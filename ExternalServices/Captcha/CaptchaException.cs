@@ -2,6 +2,7 @@
 
 namespace Leaf.Core.ExternalServices.Captcha
 {
+    [Serializable]
     public class CaptchaException : Exception
     {
         /// <summary>

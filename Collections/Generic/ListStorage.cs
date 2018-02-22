@@ -2,7 +2,7 @@
 
 namespace Leaf.Core.Collections.Generic
 {
-    public class ListStorage<T> : List<T>, IStorage<T>
+    public sealed class ListStorage<T> : List<T>, IStorage<T>
     {
         public ListIteration Iteration = ListIteration.TillTheEnd;
         private int _currentIndex;
