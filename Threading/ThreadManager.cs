@@ -173,6 +173,7 @@ namespace Leaf.Core.Threading
             if (_disposed)
                 return;
 
+            // ReSharper disable once UseNullPropagation
             if (disposing && _cancel != null)
                 _cancel.Dispose();
 
