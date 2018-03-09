@@ -50,6 +50,7 @@
     <Compile Include="IO\BinarySerializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Runtime\Serialization\SplitSerializeable.cs" />
+    <Compile Include="System\TimeSpanExtensions.cs" />
     <Compile Include="Text\StringExtensions.cs" />
     <Compile Include="Text\StringGenerator.cs" />
     <Compile Include="Text\StringHtmlExtensions.cs" />
