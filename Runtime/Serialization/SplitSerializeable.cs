@@ -7,13 +7,10 @@
         /// </summary>
         protected virtual string Splitter { get; } = " = ";
 
-        /// <inheritdoc />
         public abstract string SerializeToString();
 
-        /// <inheritdoc />
         public abstract bool DeserializeFromString(string serializedContent);
 
-        /// <inheritdoc />
         public override string ToString() => SerializeToString();
     }
 }

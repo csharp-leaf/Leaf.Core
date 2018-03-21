@@ -9,10 +9,8 @@ namespace Leaf.Core.Collections
     /// </summary>
     public class LockedQueue : LockedQueue<string>
     {
-        /// <inheritdoc />
         public LockedQueue() {}
 
-        /// <inheritdoc />
         public LockedQueue(IEnumerable<string> items) : base(items) {}
 
         /// <summary>

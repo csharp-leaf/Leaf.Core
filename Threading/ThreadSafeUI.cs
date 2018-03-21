@@ -96,10 +96,10 @@ namespace Leaf.Core.Threading
 
             var sb = new StringBuilder();
             if (showTime)
-                sb.AppendFormat("[{0:HH:mm:ss}] ", DateTime.Now);
+                sb.AppendFormat("{0:HH:mm:ss} | ", DateTime.Now);
 
             if (threadName != null)
-                sb.AppendFormat("[№{0}] ", threadName);
+                sb.AppendFormat("# {0} :: ", threadName);
 
             sb.AppendLine(message);
 

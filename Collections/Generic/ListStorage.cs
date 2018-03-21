@@ -15,13 +15,11 @@ namespace Leaf.Core.Collections.Generic
             _currentIndex = 0;
         }
 
-        /// <inheritdoc />
         void IStorage<T>.AppendItem(T item)
         {
             Add(item);
         }
         
-        /// <inheritdoc />
         T IStorage<T>.GetNext()
         {
             if (Count == 0)
