@@ -40,10 +40,21 @@ namespace Leaf.Core.Threading
         /// Делегат который вызывает код формы, после того как сообщение лога было отформатировано, в соответствии с параметрами.
         /// </summary>
         public readonly DFormLog FormLog;
+
+        /// <summary>
+        /// Источник токена для прерывания работы.
+        /// </summary>
+        public CancellationTokenSource CancellationSource;
+
         /// <summary>
         /// Токен для проверки, была ли отменена работа пользователем. Используйте сокращение ThrowIfCanceled() и IsCanceled для работы с ним.
         /// </summary>
-        public CancellationToken CancelToken;
+        public CancellationToken CancelToken => CancellationSource.Token;
+
+        /// <summary>
+        /// Возвращает истину если работа была отменена пользователем.
+        /// </summary>
+        public bool IsCanceled => CancelToken.IsCancellationRequested;
 
         /// <summary>
         /// Создает потокобезопасную реализацию для работы с интерфейсом.
@@ -62,6 +73,32 @@ namespace Leaf.Core.Threading
         }
 
         /// <summary>
+        /// Уничтожает прошлый CancellationTokenSource и сбразывает CancelToken создавая новый.
+        /// </summary>
+        public void ResetCancelSource()
+        {
+            CancellationSource?.Dispose();
+            CancellationSource = new CancellationTokenSource();
+        }
+
+        /// <summary>
+        /// Останавливает работу, вызывая завершение CancelToken и бросает исключение об отмене операции.
+        /// </summary>
+        /// <exception cref="OperationCanceledException">Возникает сразу после завершения вызова</exception>
+        public void CancelAndThrow()
+        {
+            if (CancellationSource == null)
+            {
+                Log("ПРЕДУПРЕЖДЕНИЕ: Произошел Вызов отмены когда CancelTokenSource был уничтожен");
+                return;
+            }
+
+            CancellationSource.Cancel();
+
+            // throw new OperationCanceledException(CancelToken);
+        }
+
+        /// <summary>
         /// Ожидает указанное время или бросает исключение когда пользователь отменяет работу.
         /// </summary>
         /// <param name="millisecondsTimeout">Число миллисекунд для ожидания</param>
@@ -69,7 +106,7 @@ namespace Leaf.Core.Threading
         public void SleepOrCancel(int millisecondsTimeout)
         {
             if (CancelToken.WaitHandle.WaitOne(millisecondsTimeout))
-                throw new OperationCanceledException(CancelToken);
+                CancelAndThrow();
         }
 
         /// <inheritdoc cref="SleepOrCancel(int)"/>
@@ -77,13 +114,8 @@ namespace Leaf.Core.Threading
         public void SleepOrCancel(TimeSpan timeout)
         {
             if (CancelToken.WaitHandle.WaitOne(timeout))
-                throw new OperationCanceledException(CancelToken);
+                CancelAndThrow();
         }
-
-        /// <summary>
-        /// Возвращает истину если работа была отменена пользователем.
-        /// </summary>
-        public bool IsCanceled => CancelToken.IsCancellationRequested;
 
         /// <summary>
         /// Пишет сообщение в лог.
@@ -99,7 +131,7 @@ namespace Leaf.Core.Threading
                 sb.AppendFormat("{0:HH:mm:ss} | ", DateTime.Now);
 
             if (threadName != null)
-                sb.AppendFormat("# {0} :: ", threadName);
+                sb.AppendFormat("№{0} | ", threadName);
 
             sb.AppendLine(message);
 

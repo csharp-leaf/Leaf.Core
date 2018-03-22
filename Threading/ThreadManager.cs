@@ -28,7 +28,7 @@ namespace Leaf.Core.Threading
         protected Action BeforeStart;
 
         private readonly ThreadSafeUI _ui;
-        private CancellationTokenSource _cancel;
+        //private CancellationTokenSource _cancel;
 
         #region Thread Counters and Flags
         private readonly List<Thread> _threads = new List<Thread>();
@@ -74,11 +74,8 @@ namespace Leaf.Core.Threading
             _ui.SetProgress(); // Сбрасываем полоску прогресса
             _threads.Clear();
 
-            // Пересоздаем объект отмены            
-            _cancel?.Dispose();
-            _cancel = new CancellationTokenSource();
-
-            _ui.CancelToken = _cancel.Token;
+            // Пересоздаем объект отмены
+            _ui.ResetCancelSource();
 
             for (uint i = 0; i < threadCount; i++)
             {
@@ -102,7 +99,7 @@ namespace Leaf.Core.Threading
         /// </summary>
         public void Stop()
         {
-            _cancel.Cancel();
+            _ui.CancelAndThrow();
             _ui.Log("Идет плавная остановка всех потоков...");
         }
 
@@ -139,7 +136,7 @@ namespace Leaf.Core.Threading
             Interlocked.Increment(ref _activeThreads);
 
             // Делаем указанную работу, если отмены не было
-            if (!_cancel.IsCancellationRequested)
+            if (!_ui.IsCanceled)
                 Do(args);
 
             //
@@ -174,8 +171,8 @@ namespace Leaf.Core.Threading
                 return;
 
             // ReSharper disable once UseNullPropagation
-            if (disposing && _cancel != null)
-                _cancel.Dispose();
+            if (disposing)
+                _ui.CancellationSource?.Dispose();
 
             _disposed = true;
         }
