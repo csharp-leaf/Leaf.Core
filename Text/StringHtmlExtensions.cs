@@ -160,6 +160,36 @@ namespace Leaf.Core.Text
 
             return result;
         }
+        /*
+         * not tested trash
+        public static string InnerHtmlByTag(this string self, string tag, int startIndex = 0,
+            StringComparison comparison = StringComparison.Ordinal)
+        {
+            string result = string.Empty;
+
+            int lastIndex = startIndex;
+
+            while (self.HasSubstring("<" + tag, "</" + tag, out string rawInner, out int beginIndex, lastIndex))
+            {
+                lastIndex = beginIndex + rawInner.Length;
+
+                // Если тег попал под шаблон, начала строки, но имеет продолжение к названию тега
+                // div тег != diver тег, смысл именно в этом
+                // Тут может быть только табуляция или >
+                char c = rawInner[0];
+                if (char.IsLetterOrDigit(c))
+                    continue;
+
+                int cropStartIndex = rawInner.IndexOf(">", StringComparison.Ordinal);
+                if (cropStartIndex == -1)
+                    continue;
+
+                result = rawInner.Substring(cropStartIndex + 1, rawInner.Length - 1 - cropStartIndex);
+                break;
+            }
+
+            return result;
+        }*/
 
         public static string InnerHtmlByAttribute(this string self, string attribute, string value, int startIndex = 0,
             StringComparison comparison = StringComparison.Ordinal)

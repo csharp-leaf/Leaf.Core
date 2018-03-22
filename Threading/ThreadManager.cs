@@ -27,6 +27,12 @@ namespace Leaf.Core.Threading
         /// </summary>
         protected Action BeforeStart;
 
+        /// <summary>
+        /// Отвечает за то, надо ли именовать потоки номерами в порядке создания.
+        /// Значение false позволит задать имена потокам позже, если это требуется.
+        /// </summary>
+        protected bool AppendThreadNames { get; set; } = true;
+
         private readonly ThreadSafeUI _ui;
         //private CancellationTokenSource _cancel;
 
@@ -81,9 +87,11 @@ namespace Leaf.Core.Threading
             {
                 var thread = new Thread(StartDoingWork)
                 {
-                    IsBackground = true,
-                    Name = (i + 1).ToString()
+                    IsBackground = true
                 };
+
+                if (AppendThreadNames)
+                    thread.Name = (i + 1).ToString();
 
                 if (args == null || i >= args.Length)
                     thread.Start();

@@ -124,14 +124,13 @@ namespace Leaf.Core.Threading
         /// <param name="showTime">Показывать дату сообщения</param>
         public void Log(string message, bool showTime = true)
         {
-            string threadName = Thread.CurrentThread.Name;
-
             var sb = new StringBuilder();
             if (showTime)
                 sb.AppendFormat("{0:HH:mm:ss} | ", DateTime.Now);
 
+            string threadName = Thread.CurrentThread.Name;
             if (threadName != null)
-                sb.AppendFormat("№{0} | ", threadName);
+                sb.AppendFormat("{0} | ", threadName);
 
             sb.AppendLine(message);
 
