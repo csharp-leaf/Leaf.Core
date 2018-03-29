@@ -147,8 +147,6 @@ namespace Leaf.Core.Threading
             if (!_ui.IsCanceled)
                 Do(args);
 
-            //
-            // В завершение:
             // Уменьшаем счетчик активных потоков безопасно
             int activeThreads = Interlocked.Decrement(ref _activeThreads);
 
@@ -159,15 +157,17 @@ namespace Leaf.Core.Threading
                 if (_threads != null && _threads.Count > 0)
                     _threads.Remove(Thread.CurrentThread);
 
+                // В завершение:
                 if (activeThreads > 0 || _done)
                     return;
 
-                _done = true;                    
-                Done?.Invoke();
-
-                _ui.SetProgress();
-                _ui.EnableUI();
+                _done = true;
             }
+
+            Done?.Invoke();
+
+            _ui.SetProgress();
+            _ui.EnableUI();
         }
 
         #region IDisposable Support
