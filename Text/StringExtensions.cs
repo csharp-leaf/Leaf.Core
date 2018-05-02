@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -295,7 +296,26 @@ namespace Leaf.Core.Text
             return win1251.GetString(win1251Bytes);
         }
 
+        /// <summary>
+        /// Возращает тип форматирование числа с разделением тысяч.
+        /// </summary>
+        public static NumberFormatInfo ThousandNumberFormatInfo
+        {
+            get {
+                // ReSharper disable once InvertIf
+                if (_thousandNumberFormatInfo == null)
+                {
+                    _thousandNumberFormatInfo = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
+                    _thousandNumberFormatInfo.NumberGroupSeparator = " ";
+                }
+
+                return _thousandNumberFormatInfo;
+            }
+        }
+        private static NumberFormatInfo _thousandNumberFormatInfo;
+
         #region Predicated
+
         /*
           /// <summary>
           /// Проверяет содержит ли строка полезные данные, т.е. не пуста и не является сплошными пробелами или отступами.
@@ -323,6 +343,7 @@ namespace Leaf.Core.Text
         private static readonly DateTime Jan1St1970 = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
         public static ulong MillisecondsFrom1970 => (ulong) (DateTime.UtcNow - Jan1St1970).TotalMilliseconds;
        */
+
         #endregion
     }
 }
