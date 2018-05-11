@@ -5,9 +5,9 @@ namespace Leaf.Core.Runtime.Serialization
     public abstract class SplitSerializeable : IStringSerializeable
     {
         /// <summary>
-        /// Разделитель между значениями. По умолчанию равен " = ".
+        /// Разделитель между значениями. По умолчанию равен ":".
         /// </summary>
-        protected virtual string Splitter { get; } = " = ";
+        protected virtual string Splitter { get; } = ":";
 
         /// <inheritdoc />
         public abstract string SerializeToString();
