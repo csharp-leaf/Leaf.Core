@@ -1,8 +1,13 @@
 ﻿using System;
 using System.Text;
+using Leaf.Core.Extensions.String;
+// ReSharper disable UnusedMember.Global
 
 namespace Leaf.Core.Text
 {
+    /// <summary>
+    /// Потокобезопасный генератор логинов и паролей.
+    /// </summary>
     public static class StringGenerator
     {
         [ThreadStatic] private static Random _rand;
@@ -17,37 +22,6 @@ namespace Leaf.Core.Text
         private static readonly string[] Nouns = {
             "access", "act", "action", "actor", "affair", "agency", "air", "answer", "apple", "area", "army", "art", "aspect", "basket", "bird", "blood", "board", "boat", "book", "boss", "box", "breath", "card", "case", "cash", "cause", "chance", "cheek", "child", "church", "coast", "coffee", "cookie", "data", "dealer", "demand", "depth", "design", "desk", "device", "dog", "drawer", "driver", "end", "energy", "entry", "error", "estate", "event", "extent", "fact", "farmer", "figure", "fire", "fish", "focus", "force", "form", "frame", "future", "game", "garden", "gate", "girl", "goal", "group", "hat", "heart", "house", "idea", "image", "insect", "item", "job", "key", "king", "lab", "lady", "lake", "law", "leader", "level", "life", "line", "list", "loss", "love", "man", "math", "media", "member", "memory", "mind", "model", "moment", "money", "mouse", "movie", "nation", "night", "note", "number", "order", "page", "paper", "people", "person", "phone", "photo", "pizza", "player", "point", "power", "queen", "reason", "recipe", "record", "risk", "river", "road", "rock", "rule", "sample", "sense", "sir", "song", "sound", "source", "sport", "store", "story", "studio", "style", "tale", "term", "theory", "thing", "time", "trade", "truth", "unit", "user", "virus", "war", "way", "web", "winner", "woman", "world", "writer"
         };
-
-        private static void AppendRandomNumbers(this StringBuilder sb, int minDigits, int maxDigits)
-        {
-            // проверка параметров
-            if (minDigits > maxDigits || maxDigits < minDigits) // || minDigits == 0 || maxDigits == 0
-                throw new ArgumentException("Неверно заданы количесво цифр для добавления в StringBuilder");
-
-            // частная оптимизация
-            if (minDigits == 1 && maxDigits == 1)
-            {
-                sb.Append(Rand.Next(0, 9));
-                return;
-            }
-
-            // получаем предел в соответствии с максимальным количеством цифр max = 10 ^ maxDigits - 1;
-            int max = 1;
-            for (int i = 0; i < maxDigits; i++)
-                max *= 10;
-
-            // дополняем нулями минимальную длинну цифр
-            string random = Rand.Next(0, max - 1).ToString();
-            int randomLength = random.Length;
-
-            while (randomLength < minDigits)
-            {
-                sb.Append('0');
-                ++randomLength;
-            }
-
-            sb.Append(random);
-        }
 
         /// <summary>
         /// Генерирует случайную строку.
@@ -117,6 +91,37 @@ namespace Leaf.Core.Text
         public static string RandomPassword(int minDigits, int maxDigits)
         {
             return Random(true, minDigits, maxDigits);
+        }
+
+        private static void AppendRandomNumbers(this StringBuilder sb, int minDigits, int maxDigits)
+        {
+            // проверка параметров
+            if (minDigits > maxDigits || maxDigits < minDigits) // || minDigits == 0 || maxDigits == 0
+                throw new ArgumentException("Неверно заданы количесво цифр для добавления в StringBuilder");
+
+            // частная оптимизация
+            if (minDigits == 1 && maxDigits == 1)
+            {
+                sb.Append(Rand.Next(0, 9));
+                return;
+            }
+
+            // получаем предел в соответствии с максимальным количеством цифр max = 10 ^ maxDigits - 1;
+            int max = 1;
+            for (int i = 0; i < maxDigits; i++)
+                max *= 10;
+
+            // дополняем нулями минимальную длинну цифр
+            string random = Rand.Next(0, max - 1).ToString();
+            int randomLength = random.Length;
+
+            while (randomLength < minDigits)
+            {
+                sb.Append('0');
+                ++randomLength;
+            }
+
+            sb.Append(random);
         }
     }
 }

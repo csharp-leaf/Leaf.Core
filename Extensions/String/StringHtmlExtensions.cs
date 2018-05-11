@@ -1,10 +1,84 @@
 ﻿using System;
 using System.Collections.Generic;
+// ReSharper disable UnusedMember.Global
 
-namespace Leaf.Core.Text
+namespace Leaf.Core.Extensions.String
 {
     public static class StringHtmlExtensions
     {
+        /// <summary>
+        /// Выбирает внутрений HTML код первого найденного элемента с соответствующим классом.
+        /// </summary>
+        /// <param name="self">Исходный HTML</param>
+        /// <param name="className">Имя класса который нужно искать</param>
+        /// <param name="startIndex">Начальный индекс поиска</param>
+        /// <param name="comparison">Способ сравнения строк имен класса</param>
+        /// <param name="notFoundValue">Значение если ничего не было найдено</param>
+        /// <returns>Вернет внутренний HTML код элемента</returns>
+        public static string InnerHtmlByClass(this string self, string className, int startIndex = 0,
+            StringComparison comparison = StringComparison.Ordinal, string notFoundValue = null)
+        {
+            string result = notFoundValue;
+
+            GetInnerHtmlByClass(self, className, ref result, startIndex, comparison);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Выбирает внутрений HTML код первого найденного элемента с соответствующим значением атрибута.
+        /// </summary>
+        /// <param name="self">Исходный HTML</param>
+        /// <param name="attribute">Имя атрибута</param>
+        /// <param name="value">Значение атрибута</param>
+        /// <param name="startIndex">Начальный индекс поиска</param>
+        /// <param name="comparison">Способ сравнения строк значений атрибута</param>
+        /// <param name="notFoundValue">Значение если ничего не было найдено</param>
+        /// <returns>Вернет внутренний HTML код элемента c определенным атрибутом</returns>
+        public static string InnerHtmlByAttribute(this string self, string attribute, string value, int startIndex = 0,
+            StringComparison comparison = StringComparison.Ordinal, string notFoundValue = null)
+        {
+            string result = notFoundValue;
+
+            GetInnerHtmlByAttribute(self, attribute, value, ref result, startIndex, comparison);
+
+            return result;
+        }
+
+
+        /// <summary>
+        /// Выбирает все внутренние HTML коды по селектору класса.
+        /// </summary>
+        /// <param name="self">Исходный HTML</param>
+        /// <param name="className">Имя класса который нужно искать</param>
+        /// <param name="startIndex">Начальный индекс поиска</param>
+        /// <param name="trim">Следует ли обезать пробелы во всех вхождениях</param>
+        /// <param name="comparison">Способ сравнения строк</param>
+        /// <returns>Вернет все внутренние HTML коды по селектору класса</returns>
+        public static string[] InnerHtmlByClassAll(this string self, string className, int startIndex = 0,
+            bool trim = false,
+            StringComparison comparison = StringComparison.Ordinal)
+        {
+            int currentIndex = startIndex;
+
+            string item = string.Empty;
+
+            var result = new List<string>();
+            while ((currentIndex = GetInnerHtmlByClass(self, className, ref item, currentIndex, comparison)) != -1)
+            {
+                if (trim)
+                    item = item.Trim();
+
+                result.Add(item);
+                item = string.Empty;
+            }
+
+            return result.ToArray();
+        }
+
+
+        #region Private methods
+              
         private static bool HasSubstring(this string self, string left, string right, 
             out string substring,
             out int beginSubstringIndex,
@@ -143,23 +217,9 @@ namespace Leaf.Core.Text
             return GetInnerHtmlByAttribute(self, "class", className, ref result, startIndex, comparison);
         }
 
-        /// <summary>
-        /// Выбирает внутрений HTML код первого найденного элемента с соответствующим классом.
-        /// </summary>
-        /// <param name="self">Исходный HTML</param>
-        /// <param name="className">Имя класса который нужно искать</param>
-        /// <param name="startIndex">Начальный индекс поиска</param>
-        /// <param name="comparison">Способ сравнения строк имен классов</param>
-        /// <returns>Вернет внутренний HTML код элемента</returns>
-        public static string InnerHtmlByClass(this string self, string className, int startIndex = 0,
-            StringComparison comparison = StringComparison.Ordinal)
-        {
-            string result = string.Empty;
+        #endregion
 
-            GetInnerHtmlByClass(self, className, ref result, startIndex, comparison);
-
-            return result;
-        }
+        #region Disabled code
         /*
          * not tested trash
         public static string InnerHtmlByTag(this string self, string tag, int startIndex = 0,
@@ -190,36 +250,6 @@ namespace Leaf.Core.Text
 
             return result;
         }*/
-
-        public static string InnerHtmlByAttribute(this string self, string attribute, string value, int startIndex = 0,
-            StringComparison comparison = StringComparison.Ordinal)
-        {
-            string result = string.Empty;
-
-            GetInnerHtmlByAttribute(self, attribute, value, ref result, startIndex, comparison);
-
-            return result;
-        }
-
-
-        public static string[] InnerHtmlByClassAll(this string self, string className, int startIndex = 0,
-            bool trim = false,
-            StringComparison comparison = StringComparison.Ordinal)
-        {
-            int currentIndex = startIndex;
-
-            string item = string.Empty;
-
-            var result = new List<string>();
-            while ((currentIndex = GetInnerHtmlByClass(self, className, ref item, currentIndex, comparison)) != -1)
-            {
-                if (trim)
-                    item = item.Trim();
-
-                result.Add(item);
-            }
-
-            return result.ToArray();
-        }
+        #endregion
     }
 }

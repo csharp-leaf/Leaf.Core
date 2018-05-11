@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
+using System.Collections.Concurrent;
 using Leaf.Core.Runtime.Serialization;
 using Leaf.Core.Threading;
 
@@ -7,8 +8,9 @@ namespace Leaf.Core.Collections.Generic
 {
     /// <summary>
     /// Фабрика потокобезопасных коллекций.
+    /// Используйте её когда требуется инициализировать потокобезопасную коллекцию из файла.
     /// </summary>
-    public static class LockedFactory
+    public static class ConcurrentFactory
     {
         #region # Public Synchronous Methods
 
@@ -22,11 +24,11 @@ namespace Leaf.Core.Collections.Generic
         /// <param name="includeComments">Если true, то строки с коментариями тоже будут включены в выборку для десериалиализации.</param>
         /// <param name="trim">Очищать начало и конец строк от отступов и пробелов.</param>
         /// <returns>Возвращает новый потокобезопасный список объектов</returns>
-        public static LockedList<T> ListFromFile<T>(string filePath, ThreadSafeUI ui = null,
+        public static ConcurrentBag<T> BagFromFile<T>(string filePath, ThreadSafeUI ui = null,
             bool includeComments = false, bool trim = true)
             where T : IStringSerializeable, new()
         {
-            var result = new LockedList<T>();
+            var result = new ConcurrentBag<T>();
             ReadAndDeserialize(result, filePath, ui, includeComments, trim);
             return result;
         }
@@ -39,11 +41,11 @@ namespace Leaf.Core.Collections.Generic
         /// <param name="includeComments">Если true, то строки с коментариями тоже будут включены в выборку для десериалиализации.</param>
         /// <param name="trim">Очищать начало и конец строк от отступов и пробелов.</param>
         /// <returns>Возвращает новую потокобезопасную очередь объектов</returns>
-        public static LockedQueue<T> QueueFromFile<T>(string filePath, ThreadSafeUI ui = null, 
+        public static ConcurrentQueue<T> QueueFromFile<T>(string filePath, ThreadSafeUI ui = null, 
             bool includeComments = false, bool trim = true)
             where T : IStringSerializeable, new()
         {
-            var result = new LockedQueue<T>();
+            var result = new ConcurrentQueue<T>();
             ReadAndDeserialize(result, filePath, ui, includeComments, trim);      
             return result;
         }
@@ -52,14 +54,14 @@ namespace Leaf.Core.Collections.Generic
 
         #region ## String
 
-        /// <inheritdoc cref="ListFromFile{T}"/>
+        /// <inheritdoc cref="BagFromFile{T}"/>
         /// <summary>
         /// Создаёт потокобезопасный список строк из текстового файла. Десериализация проводится построчно.
         /// </summary>
         /// <returns>Возвращает новый потокобезопасный список строк</returns>
-        public static LockedList ListFromFile(string filePath, bool includeComments = false, bool trim = true)
+        public static ConcurrentBag<string> BagFromFile(string filePath, bool includeComments = false, bool trim = true)
         {
-            var result = new LockedList();
+            var result = new ConcurrentBag<string>();
             ReadAndAppend(result, filePath, includeComments, trim);
             return result;
         }
@@ -69,9 +71,9 @@ namespace Leaf.Core.Collections.Generic
         /// Создаёт потокобезопасную очередь строк из текстового файла. Десериализация проводится построчно.
         /// </summary>
         /// <returns>Возвращает новую потокобезопасную очередь строк</returns>
-        public static LockedQueue QueueFromFile(string filePath, bool includeComments = false, bool trim = true)
+        public static ConcurrentQueue<string> QueueFromFile(string filePath, bool includeComments = false, bool trim = true)
         {
-            var result = new LockedQueue();
+            var result = new ConcurrentQueue<string>();
             ReadAndAppend(result, filePath, includeComments, trim);
             return result;
         }
@@ -84,22 +86,22 @@ namespace Leaf.Core.Collections.Generic
 
         #region ## Generic
 
-        /// <inheritdoc cref="ListFromFile{T}"/>
+        /// <inheritdoc cref="BagFromFile{T}"/>
         /// <summary>
         /// Асинхронно создаёт потокобезопасный список объектов из текстового файла. Десериализация проводится построчно.
         /// </summary>        
-        public static async Task<LockedList<T>> ListFromFileAsync<T>(string filePath, ThreadSafeUI ui = null,
+        public static async Task<ConcurrentBag<T>> BagFromFileAsync<T>(string filePath, ThreadSafeUI ui = null,
             bool includeComments = false, bool trim = true)
             where T : IStringSerializeable, new()
         {
-            return await Task.Run(() => ListFromFile<T>(filePath, ui, includeComments, trim));
+            return await Task.Run(() => BagFromFile<T>(filePath, ui, includeComments, trim));
         }
 
         /// <inheritdoc cref="QueueFromFile{T}"/>
         /// <summary>
         /// Асинхронно создаёт потокобезопасную очередь объектов из текстового файла. Десериализация проводится построчно.
         /// </summary>
-        public static async Task<LockedQueue<T>> QueueFromFileAsync<T>(string filePath, ThreadSafeUI ui = null,
+        public static async Task<ConcurrentQueue<T>> QueueFromFileAsync<T>(string filePath, ThreadSafeUI ui = null,
             bool includeComments = false, bool trim = true)
             where T : IStringSerializeable, new()
         {
@@ -110,21 +112,21 @@ namespace Leaf.Core.Collections.Generic
 
         #region ## String
 
-        /// <inheritdoc cref="ListFromFile"/>
+        /// <inheritdoc cref="BagFromFile"/>
         /// <summary>
         /// Асинхронно создаёт потокобезопасный список строк из текстового файла. Десериализация проводится построчно.
         /// </summary>
-        public static async Task<LockedList> ListFromFileAsync(string filePath, 
+        public static async Task<ConcurrentBag<string>> BagFromFileAsync(string filePath, 
             bool includeComments = false, bool trim = true)
         {
-            return await Task.Run(() => ListFromFile(filePath, includeComments, trim));
+            return await Task.Run(() => BagFromFile(filePath, includeComments, trim));
         }
 
         /// <inheritdoc cref="QueueFromFile"/>
         /// <summary>
         /// Асинхронно создаёт потокобезопасную очередь строк из текстового файла. Десериализация проводится построчно.
         /// </summary>        
-        public static async Task<LockedQueue> QueueFromFileAsync(string filePath,
+        public static async Task<ConcurrentQueue<string>> QueueFromFileAsync(string filePath,
             bool includeComments = false, bool trim = true)
         {
             return await Task.Run(() => QueueFromFile(filePath, includeComments, trim));
@@ -167,25 +169,30 @@ namespace Leaf.Core.Collections.Generic
             }
         }
 
-        private static void ReadAndDeserialize<T>(LockedCollection<T> collection, string filePath, ThreadSafeUI ui,
+        private static void ReadAndDeserialize<T>(IProducerConsumerCollection<T> collection, string filePath, ThreadSafeUI ui,
             bool includeComments, bool trim)
             where T : IStringSerializeable, new()
         {
             ReadFileLineByLine(filePath, includeComments, trim, (lineNumber, line) => {
                 // Десериализуем объект из строки
                 var item = new T();
-                if (item.DeserializeFromString(line))
-                    collection.AppendItem(item);
+                if (item.DeserializeFromString(line)) {
+                    
+                    if (!collection.TryAdd(item))
+                        throw new IOException("Unable to ReadAndAppend to ConcurrentCollection.");
+                }
                 else
                     ui?.Log($"Пропускаю, неверная запись объекта {typeof(T).Name}. Строка #{lineNumber}: {line}");
             });
         }
 
-        private static void ReadAndAppend(LockedCollection<string> collection, string filePath,
+        private static void ReadAndAppend(IProducerConsumerCollection<string> collection, string filePath,
             bool includeComments, bool trim)
         {
             ReadFileLineByLine(filePath, includeComments, trim, (lineNumber, line) => {
-                collection.AppendItem(line);
+
+                if (!collection.TryAdd(line))
+                    throw new IOException("Unable to ReadAndAppend to ConcurrentCollection.");
             });
         }
         #endregion

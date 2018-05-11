@@ -35,25 +35,20 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Collections\Generic\CollectionRandomizer.cs" />
+    <Compile Include="Extensions\String\StringBetweenException.cs" />
+    <Compile Include="Extensions\System\DateTimeExtensions.cs" />
     <Compile Include="Patterns\Singleton.cs" />
     <Compile Include="Runtime\Serialization\IStringSerializeable.cs" />
-    <Compile Include="Collections\Generic\LockedFactory.cs" />
-    <Compile Include="Collections\Generic\LockedQueue.cs" />
-    <Compile Include="Collections\Generic\LockedList.cs" />
-    <Compile Include="Collections\Generic\IStorage.cs" />
-    <Compile Include="Collections\Generic\ListStorage.cs" />
-    <Compile Include="Collections\Generic\QueueStorage.cs" />
-    <Compile Include="Collections\Generic\LockedCollection.cs" />
-    <Compile Include="Collections\LockedList.cs" />
-    <Compile Include="Collections\LockedQueue.cs" />
+    <Compile Include="Collections\Generic\ConcurrentFactory.cs" />
     <Compile Include="IO\BinarySerializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Runtime\Serialization\SplitSerializeable.cs" />
-    <Compile Include="System\TimeSpanExtensions.cs" />
-    <Compile Include="Text\StringExtensions.cs" />
+    <Compile Include="Extensions\System\TimeSpanExtensions.cs" />
+    <Compile Include="Extensions\String\StringEncodingExtensions.cs" />
+    <Compile Include="Extensions\String\StringExtensions.cs" />
     <Compile Include="Text\StringGenerator.cs" />
-    <Compile Include="Text\StringHtmlExtensions.cs" />
+    <Compile Include="Extensions\String\StringHtmlExtensions.cs" />
+    <Compile Include="Extensions\String\StringBetweenExtensions.cs" />
     <Compile Include="Threading\TaskPanicException.cs" />
     <Compile Include="Threading\TaskRepeatException.cs" />
     <Compile Include="Threading\TaskSkipException.cs" />

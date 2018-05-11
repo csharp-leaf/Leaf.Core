@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
+// ReSharper disable UnusedMember.Global
 
 namespace Leaf.Core.Threading
 {
+    /// <inheritdoc />
     /// <summary>
     /// Обработчик события возникающего в случае завершения работы всех потоков.
     /// </summary>
-    //public delegate void ThreadsDoneEventHandler();
     /// <summary>
     /// Обработчик события возникающего перед запуском потоков.
     /// </summary>
-    // public delegate void ThreadsBeforeStartHandler();
-
     /// <summary>
     /// Реализация менеджера потоков, включая общие события, потокобезопасную работу с интерфейсом, остановку и принудительную остановку работы.
     /// </summary>

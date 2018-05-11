@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using System.Threading;
+// ReSharper disable UnusedMember.Global
 
 namespace Leaf.Core.Threading
 {

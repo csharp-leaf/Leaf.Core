@@ -1,4 +1,5 @@
-﻿namespace Leaf.Core.Patterns
+﻿// ReSharper disable UnusedMember.Global
+namespace Leaf.Core.Patterns
 {
     /// <summary>
     /// Реализует паттерн "Одиночка".

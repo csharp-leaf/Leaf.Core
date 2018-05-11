@@ -1,4 +1,5 @@
-﻿namespace Leaf.Core.Runtime.Serialization
+﻿// ReSharper disable UnusedMember.Global
+namespace Leaf.Core.Runtime.Serialization
 {
     /// <summary>
     /// Простейшая реализация построковой сериализации и десериализации объектов.
