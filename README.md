@@ -1,18 +1,18 @@
 [![NuGet version](https://badge.fury.io/nu/Leaf.Core.svg)](https://badge.fury.io/nu/Leaf.Core)
 
-#  Installation
+# Installation
 
-### Via NuGet
+### NuGet
 ```
 PM > Install-Package Leaf.Core
 ```
 
-###  Via .NET CLI
+### .NET CLI
 ```
 dotnet add package Leaf.Core
 ```
 
-###  Install via Paket CLI
+### Paket CLI
 ```
 paket add Leaf.Core
 ```
