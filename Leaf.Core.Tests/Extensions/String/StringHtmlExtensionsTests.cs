@@ -3,7 +3,7 @@ using System;
 
 namespace Leaf.Core.Extensions.String.Tests
 {
-    [TestClass()]
+    [TestClass]
     public class StringHtmlExtensionsTests
     {
         private readonly string[] _htmlItems = {

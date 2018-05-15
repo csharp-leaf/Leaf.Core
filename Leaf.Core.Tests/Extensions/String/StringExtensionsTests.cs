@@ -1,5 +1,4 @@
 ﻿using System;
-using Leaf.Core.Extensions.String;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Leaf.Core.Extensions.String.Tests

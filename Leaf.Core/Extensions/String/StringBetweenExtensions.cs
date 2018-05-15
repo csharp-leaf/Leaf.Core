@@ -119,7 +119,6 @@ namespace Leaf.Core.Extensions.String
         #endregion
 
 
-
         #region Between - Вырезание одной подстроки. Прямой порядок (слева направо)
 
         /// <summary>

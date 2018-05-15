@@ -1,14 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Leaf.Core.Extensions.String;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Leaf.Core.Extensions.String.Tests
 {
-    [TestClass()]
+    [TestClass]
     public class StringBetweenExtensionsTests
     {
         private const string BetweenLeft = "<h1>";

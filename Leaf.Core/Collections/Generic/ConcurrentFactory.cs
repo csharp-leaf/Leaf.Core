@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Collections.Concurrent;
 using Leaf.Core.Runtime.Serialization;
 using Leaf.Core.Threading;
+// ReSharper disable UnusedMember.Global
 
 namespace Leaf.Core.Collections.Generic
 {
