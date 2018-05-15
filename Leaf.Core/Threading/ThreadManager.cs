@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
+
 // ReSharper disable UnusedMember.Global
 
 namespace Leaf.Core.Threading
@@ -18,9 +19,20 @@ namespace Leaf.Core.Threading
     public abstract class ThreadManager : IDisposable
     {
         /// <summary>
+        /// Возвращает число активных потоков.
+        /// </summary>
+        public int ActiveThreads => _activeThreads;
+
+        /// <summary>
+        /// Возвращает истину если работа была завершена.
+        /// </summary>
+        public bool IsDone { get; private set; }
+
+        /// <summary>
         /// Срабатывает в случае завершения работы всех потоков.
         /// </summary>
         protected Action Done;
+
         /// <summary>
         /// Срабатывает в перед запуском потоков.
         /// </summary>
@@ -32,15 +44,17 @@ namespace Leaf.Core.Threading
         /// </summary>
         protected bool AppendThreadNames { get; set; } = true;
 
-        private readonly ThreadSafeUI _ui;
-        //private CancellationTokenSource _cancel;
 
-        #region Thread Counters and Flags
+        #region Private Variables
+
+        private readonly ThreadSafeUI _ui;
+
         private readonly List<Thread> _threads = new List<Thread>();
-        private int _activeThreads;
+        private int _activeThreads; // число активных потоков
+
         // для исключения запуска нескольких событий Done
-        private readonly object _lockerDone = new object(); 
-        private bool _done;
+        private readonly object _lockerDone = new object();
+
         #endregion
 
         /// <summary>
@@ -51,7 +65,7 @@ namespace Leaf.Core.Threading
         {
             _ui = ui;
         }
-        
+
         /// <summary>
         /// Запустить многопоточную работу.
         /// </summary>
@@ -59,33 +73,34 @@ namespace Leaf.Core.Threading
         /// <param name="args">Массив уникальных параметров для каждого потока</param>
         public void Start(uint threadCount, object[] args = null)
         {
-            if (_activeThreads > 0)
+            if (_activeThreads != 0)
             {
                 _ui.Log("Сначала дождитесь завершения потоков");
                 return;
             }
-            if (threadCount <= 0)
+
+            if (threadCount == 0)
             {
                 _ui.Log("Укажите верное число потоков");
                 return;
             }
 
-            BeforeStart?.Invoke();
-
-            // Сбрасываем флаг о завершении всех потоков
-            _done = false;
-            // Выключаем компоненты
-            _ui.EnableUI(false);
-            _ui.SetProgress(); // Сбрасываем полоску прогресса
-            _threads.Clear();
-
             // Пересоздаем объект отмены
             _ui.ResetCancelSource();
 
+            BeforeStart?.Invoke();
+
+            // Сбрасываем флаг о завершении всех потоков
+            IsDone = false;
+
+            // Выключаем компоненты
+            _ui.EnableUI?.Invoke(false);
+            _ui.SetProgress?.Invoke(); // Сбрасываем полоску прогресса
+
+            _threads.Clear();
             for (uint i = 0; i < threadCount; i++)
             {
-                var thread = new Thread(StartDoingWork)
-                {
+                var thread = new Thread(StartDoingWork) {
                     IsBackground = true
                 };
 
@@ -96,7 +111,7 @@ namespace Leaf.Core.Threading
                     thread.Start();
                 else
                     thread.Start(args[i]);
-                
+
                 _threads.Add(thread);
             }
         }
@@ -157,19 +172,20 @@ namespace Leaf.Core.Threading
                     _threads.Remove(Thread.CurrentThread);
 
                 // В завершение:
-                if (activeThreads > 0 || _done)
+                if (activeThreads > 0 || IsDone)
                     return;
 
-                _done = true;
+                IsDone = true;
             }
 
             Done?.Invoke();
 
-            _ui.SetProgress();
-            _ui.EnableUI();
+            _ui.SetProgress?.Invoke();
+            _ui.EnableUI?.Invoke();
         }
 
         #region IDisposable Support
+
         private bool _disposed; // Для определения избыточных вызовов
 
         protected virtual void Dispose(bool disposing)
@@ -184,12 +200,13 @@ namespace Leaf.Core.Threading
             _disposed = true;
         }
 
-        // Этот код добавлен для правильной реализации шаблона высвобождаемого класса.
+        /// <inheritdoc />
         public void Dispose()
         {
             // Не изменяйте этот код. Разместите код очистки выше, в методе Dispose(bool disposing).
             Dispose(true);
         }
+
         #endregion
     }
 }
