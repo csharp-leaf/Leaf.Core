@@ -4,6 +4,20 @@
     <TargetFrameworks>net462;netcoreapp2.0</TargetFrameworks>
 
     <IsPackable>false</IsPackable>
+
+    <Authors>Grand Silence</Authors>
+
+    <Company>Kelog Studio</Company>
+
+    <Version>1.3.0</Version>
+
+    <Product>Tests for Leaf.Core</Product>
+
+    <PackageIconUrl>https://raw.githubusercontent.com/csharp-leaf/Leaf.Core/master/Icons/icon-300.png</PackageIconUrl>
+
+    <PackageProjectUrl>https://github.com/csharp-leaf</PackageProjectUrl>
+
+    <RepositoryUrl>https://github.com/csharp-leaf/Leaf.Core</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>

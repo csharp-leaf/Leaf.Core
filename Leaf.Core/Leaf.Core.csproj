@@ -46,6 +46,7 @@
 	  <PackageProjectUrl>https://github.com/csharp-leaf</PackageProjectUrl>
 	  <Copyright>© 2018 Developed by Grand Silence — Kelog Studio</Copyright>
 	  <PackageTags>threading,patterns,strings,serialization</PackageTags>
+	  <PackageIconUrl>https://raw.githubusercontent.com/csharp-leaf/Leaf.Core/master/Icons/icon-300.png</PackageIconUrl>
 	</PropertyGroup>
 
 	<!-- :: // Generic configurations -->
