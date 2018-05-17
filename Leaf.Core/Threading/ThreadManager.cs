@@ -24,9 +24,9 @@ namespace Leaf.Core.Threading
         public int ActiveThreads => _activeThreads;
 
         /// <summary>
-        /// Возвращает истину если работа была завершена.
+        /// Возвращает истину если работа в процессе.
         /// </summary>
-        public bool IsDone { get; private set; }
+        public bool IsWorking { get; private set; }
 
         /// <summary>
         /// Срабатывает в случае завершения работы всех потоков.
@@ -91,7 +91,7 @@ namespace Leaf.Core.Threading
             BeforeStart?.Invoke();
 
             // Сбрасываем флаг о завершении всех потоков
-            IsDone = false;
+            IsWorking = true;
 
             // Выключаем компоненты
             _ui.EnableUI?.Invoke(false);
@@ -172,10 +172,10 @@ namespace Leaf.Core.Threading
                     _threads.Remove(Thread.CurrentThread);
 
                 // В завершение:
-                if (activeThreads > 0 || IsDone)
+                if (activeThreads > 0 || IsWorking)
                     return;
 
-                IsDone = true;
+                IsWorking = false;
             }
 
             Done?.Invoke();
