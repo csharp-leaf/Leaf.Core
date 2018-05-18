@@ -171,8 +171,7 @@ namespace Leaf.Core.Threading
                 if (_threads != null && _threads.Count > 0)
                     _threads.Remove(Thread.CurrentThread);
 
-                // В завершение:
-                if (activeThreads > 0 || IsWorking)
+                if (activeThreads > 0)
                     return;
 
                 IsWorking = false;
@@ -188,6 +187,7 @@ namespace Leaf.Core.Threading
 
         private bool _disposed; // Для определения избыточных вызовов
 
+        /// <inheritdoc cref="Dispose()"/>
         protected virtual void Dispose(bool disposing)
         {
             if (_disposed)
