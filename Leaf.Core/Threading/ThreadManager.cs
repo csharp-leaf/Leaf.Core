@@ -73,17 +73,9 @@ namespace Leaf.Core.Threading
         /// <param name="args">Массив уникальных параметров для каждого потока</param>
         public void Start(uint threadCount, object[] args = null)
         {
-            if (_activeThreads != 0)
-            {
-                _ui.Log("Сначала дождитесь завершения потоков");
+            // Валидация
+            if (IsWorking || threadCount == 0)
                 return;
-            }
-
-            if (threadCount == 0)
-            {
-                _ui.Log("Укажите верное число потоков");
-                return;
-            }
 
             // Пересоздаем объект отмены
             _ui.ResetCancelSource();
@@ -121,6 +113,9 @@ namespace Leaf.Core.Threading
         /// </summary>
         public void Stop()
         {
+            if (!IsWorking)
+                return;
+            
             _ui.CancelAndThrow();
             _ui.Log("Идет плавная остановка всех потоков...");
         }
@@ -130,6 +125,9 @@ namespace Leaf.Core.Threading
         /// </summary>
         public void Abort()
         {
+            if (!IsWorking)
+                return;
+
             _ui.Log("Принудительное завершение потоков...");
 
             // завершаем потоки
