@@ -30,8 +30,14 @@ build:
 artifacts:
 - path: Leaf.Core\bin\Release\net462
   name: net462
+- path: Leaf.Core\bin\Release\net471
+  name: net471
+- path: Leaf.Core\bin\Release\net472
+  name: net472
 - path: Leaf.Core\bin\Release\netcoreapp2.0
   name: netcoreapp2.0
+- path: Leaf.Core\bin\Release\netcoreapp2.1
+  name: netcoreapp2.1
 deploy:
 - provider: NuGet
   api_key:
@@ -44,7 +50,7 @@ deploy:
   release: Leaf.Core v$(appveyor_build_version)
   auth_token:
     secure: NQtMOO3yB309cDK/pFWRiQ==
-  artifact: net462;netcoreapp2.0
+  artifact: net462;net471;net472;netcoreapp2.0;netcoreapp2.1
   on:
     branch: master
 only_commits:
