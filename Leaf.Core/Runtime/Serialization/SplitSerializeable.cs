@@ -1,7 +1,11 @@
 ﻿// ReSharper disable UnusedMember.Global
+
+using System;
+
 namespace Leaf.Core.Runtime.Serialization
 {
     /// <inheritdoc />
+    [Serializable]
     public abstract class SplitSerializeable : IStringSerializeable
     {
         /// <summary>

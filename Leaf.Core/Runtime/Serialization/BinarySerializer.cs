@@ -4,7 +4,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading.Tasks;
 // ReSharper disable UnusedMember.Global
 
-namespace Leaf.Core.IO
+namespace Leaf.Core.Runtime.Serialization
 {
     /// <summary>
     /// Класс для сериализации и десериализации различных объектов. Хранилищем выступает бинарный файл.
