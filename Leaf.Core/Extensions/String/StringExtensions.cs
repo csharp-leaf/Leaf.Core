@@ -87,6 +87,22 @@ namespace Leaf.Core.Extensions.String
                 ?? throw new StringBetweenException($"Не найдено значение JSON ключа \"{key}\". Ответ: {json}");
         }
 
+
+        /// <summary>
+        /// Конвертирует HEX строку в оригинальный набор байт
+        /// </summary>
+        /// <param name="hexString">Строка сданными в виде HEX</param>
+        /// <returns>Оригинальный набор байт</returns>
+        public static byte[] HexStringToBytes(this string hexString)
+        {
+            int numberChars = hexString.Length;
+            var bytes = new byte[numberChars / 2];
+            for (int i = 0; i < numberChars; i += 2)
+                bytes[i / 2] = Convert.ToByte(hexString.Substring(i, 2), 16);
+
+            return bytes;
+        }
+
         /// <summary>
         /// Возращает тип форматирование числа с разделением тысяч.
         /// </summary>
