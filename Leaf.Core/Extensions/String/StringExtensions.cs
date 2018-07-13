@@ -71,7 +71,20 @@ namespace Leaf.Core.Extensions.String
         /// <returns>Вернет значение JSON ключа</returns>
         public static string GetJsonValue(this string json, string key, string endsWith = ",\"")
         {
-            return json.Between($"\"{key}\":", endsWith)?.Trim('"', '\r', '\n', '\t');
+            return endsWith != "\"" 
+                ? json.Between($"\"{key}\":", endsWith)?.Trim('"', '\r', '\n', '\t') 
+                : json.Between($"\"{key}\":\"", "\"");
+        }
+
+        /// <inheritdoc cref="GetJsonValue(string, string, string)"/>
+        /// <summary>
+        /// Получает из JSON значение нужного ключа и бросает исключение <exception cref="StringBetweenException" /> если ключ не был найден.
+        /// </summary>
+        /// <exception cref="StringBetweenException">Бросает если значение ключа не было найдено</exception>
+        public static string GetJsonValueEx(this string json, string key, string ending = ",\"")
+        {
+            return GetJsonValue(json, key, ending)
+                ?? throw new StringBetweenException($"Не найдено значение JSON ключа \"{key}\". Ответ: {json}");
         }
 
         /// <summary>

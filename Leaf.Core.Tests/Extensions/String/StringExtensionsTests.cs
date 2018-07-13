@@ -50,6 +50,26 @@ namespace Leaf.Core.Extensions.String.Tests
             Assert.AreEqual("true", json.GetJsonValue("boolean"));
             Assert.AreEqual("hello", json.GetJsonValue("string"));
             Assert.AreEqual("world", json.GetJsonValue("endString", "\"}"));
+            Assert.AreEqual("world", json.GetJsonValue("endString", "\""));
+
+            Assert.IsNull(json.GetJsonValue("notFoundKey", "\"}"));
+            Assert.IsNull(json.GetJsonValue("notFoundKey", "\""));
+        }
+
+        [TestMethod]
+        public void GetJsonValueExTest()
+        {
+            const string json = "{\"boolean\":true,\"string\":\"hello\",\"endString\":\"world\"}";
+            
+            Assert.AreEqual("true", json.GetJsonValueEx("boolean"));
+            Assert.AreEqual("hello", json.GetJsonValueEx("string"));
+            Assert.AreEqual("world", json.GetJsonValueEx("endString", "\"}"));
+            Assert.AreEqual("world", json.GetJsonValueEx("endString", "\""));
+
+            Assert.ThrowsException<StringBetweenException>(() => {
+                json.GetJsonValueEx("notFoundKey", "\"}");
+                json.GetJsonValueEx("notFoundKey", "\"");
+            });
         }
 
         [TestMethod]
