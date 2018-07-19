@@ -23,7 +23,7 @@ namespace Leaf.Core.Extensions.System
         /// </summary>
         public static string ToFileFormatString(this DateTime self)
         {
-            return self.ToString("yyyy-MM-dd__HH:mm:ss", CultureInfo.InvariantCulture);
+            return self.ToString("yyyy-MM-dd__HH-mm-ss", CultureInfo.InvariantCulture);
         }
     }
 }
