@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Globalization;
 using System.Text;
-// ReSharper disable UnusedMember.Global
 
 namespace Leaf.Core.Extensions.System
 {

@@ -1,5 +1,5 @@
 ﻿using System;
-// ReSharper disable UnusedMember.Global
+using System.Globalization;
 
 namespace Leaf.Core.Extensions.System
 {
@@ -17,5 +17,13 @@ namespace Leaf.Core.Extensions.System
         private static DateTime _firstJanuary1970;
 
         public static ulong MillisecondsFrom1970 => (ulong) (DateTime.UtcNow - FirstJanuary1970).TotalMilliseconds;
+
+        /// <summary>
+        /// Время в безопасном формате для наименования файла.
+        /// </summary>
+        public static string ToFileFormatString(this DateTime self)
+        {
+            return self.ToString("yyyy-MM-dd__HH:mm:ss", CultureInfo.InvariantCulture);
+        }
     }
 }

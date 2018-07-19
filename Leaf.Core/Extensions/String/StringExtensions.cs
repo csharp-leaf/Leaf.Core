@@ -11,7 +11,7 @@ namespace Leaf.Core.Extensions.String
     public static class StringExtensions
     {
         /// <summary>
-        /// Проверяет наличие слова в строке, аналогично <see cref="string.Contains"/>, но без учета реестра и региональных стандартов.
+        /// Проверяет наличие слова в строке, аналогично <see cref="string.Contains(string)"/>, но без учета реестра и региональных стандартов.
         /// </summary>
         /// <param name="str">Строка для поиска слова</param>
         /// <param name="value">Слово которое должно содержаться в строке</param>
@@ -101,6 +101,19 @@ namespace Leaf.Core.Extensions.String
                 bytes[i / 2] = Convert.ToByte(hexString.Substring(i, 2), 16);
 
             return bytes;
+        }
+
+        /// <summary>
+        /// Экранирует " символы и символы юникода в JSON.
+        /// </summary>
+        /// <param name="jsonData">JSON данные</param>
+        /// <returns>Вернет экранированные данные.</returns>
+        public static string EscapeJsonData(this string jsonData)
+        {
+            return jsonData
+                .Replace("\"", "\\\"")
+                .Replace("\\", "\\\\")
+                .EncodeJsonUnicode();
         }
 
         /// <summary>
