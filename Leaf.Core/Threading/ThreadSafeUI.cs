@@ -53,6 +53,11 @@ namespace Leaf.Core.Threading
         public CancellationToken CancelToken => CancellationSource.Token;
 
         /// <summary>
+        /// Обработчик событий при вызове Log.
+        /// </summary>
+        public event DFormLog OnLog;
+
+        /// <summary>
         /// Возвращает истину если работа была отменена пользователем.
         /// </summary>
         public bool IsCanceled => CancelToken.IsCancellationRequested;
@@ -136,8 +141,11 @@ namespace Leaf.Core.Threading
             sb.AppendLine(message);
 
             // Выводим в форму отформатированное сообщение
-            FormLog(sb.ToString());
-            sb.Clear();
+            string result = sb.ToString();
+            FormLog(result);
+
+            // Транслируем остальным лог
+            OnLog?.Invoke(result);
         }
 
         /// <summary>
