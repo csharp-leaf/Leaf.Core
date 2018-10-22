@@ -107,13 +107,18 @@ namespace Leaf.Core.Extensions.String
         /// Экранирует " символы и символы юникода в JSON.
         /// </summary>
         /// <param name="jsonData">JSON данные</param>
+        /// <param name="escapeUnicode">Следует ли экранировать символы юникода</param>
         /// <returns>Вернет экранированные данные.</returns>
-        public static string EscapeJsonData(this string jsonData)
+        public static string EscapeJsonData(this string jsonData, bool escapeUnicode)
         {
-            return jsonData
-                .Replace("\"", "\\\"")
+            string result = jsonData
                 .Replace("\\", "\\\\")
-                .EncodeJsonUnicode();
+                .Replace("\"", "\\\"");
+
+            if (escapeUnicode)
+                result = result.EncodeJsonUnicode();
+
+            return result;
         }
 
         /// <summary>
