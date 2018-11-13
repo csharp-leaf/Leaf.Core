@@ -14,7 +14,7 @@ namespace Leaf.Core.Extensions.String
         /// Преобразовывает юникод символы строки в вид \u0000.
         /// </summary>
         /// <param name="value">Строка с символами юникода</param>
-        /// <returns>Закодированая строка Json с символами в виде \u0000</returns>
+        /// <returns>Закодированная строка Json с символами в виде \u0000</returns>
         public static string EncodeJsonUnicode(this string value)
         {
             var sb = new StringBuilder();
@@ -46,7 +46,7 @@ namespace Leaf.Core.Extensions.String
         }
         
         /// <summary>
-        /// Преобразовывает текст из кодировки Windows-1251 в UTF8
+        /// Преобразовывает текст из кодировки Windows-1251 в UTF8.
         /// </summary>
         /// <param name="source">Текст который нужно преобразовать</param>
         /// <returns>Текст в кодировке UTF8</returns>

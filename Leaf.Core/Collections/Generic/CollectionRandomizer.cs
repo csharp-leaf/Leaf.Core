@@ -5,7 +5,7 @@ namespace Leaf.Core.Collections.Generic
     /// <summary>
     /// Расширения для потокобезопасных коллекций, реализующие работу со случайностями.
     /// </summary>
-    public static class CollectionRandimizer
+    public static class CollectionRandomizer
     {
         [ThreadStatic] private static Random _rand;
         private static Random Rand => _rand ?? (_rand = new Random());

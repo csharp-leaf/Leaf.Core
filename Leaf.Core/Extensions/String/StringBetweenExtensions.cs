@@ -19,13 +19,13 @@ namespace Leaf.Core.Extensions.String
         /// <param name="left">Начальная подстрока</param>
         /// <param name="right">Конечная подстрока</param>
         /// <param name="startIndex">Искать начиная с индекса</param>
-        /// <param name="comparsion">Метод сравнения строк</param>
+        /// <param name="comparison">Метод сравнения строк</param>
         /// <param name="limit">Максимальное число подстрок для поиска</param>
         /// <exception cref="ArgumentNullException">Возникает если один из параметров пустая строка или <keyword>null</keyword>.</exception>
-        /// <exception cref="ArgumentOutOfRangeException">Возникает если начальный индекс превышает длинну строки.</exception>
-        /// <returns>Возвращает массив подстрок которые попапают под шаблон или пустой массив если нет совпадений.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">Возникает если начальный индекс превышает длину строки.</exception>
+        /// <returns>Возвращает массив подстрок которые попадают под шаблон или пустой массив если нет совпадений.</returns>
         public static string[] BetweensOrEmpty(this string self, string left, string right,
-            int startIndex = 0, StringComparison comparsion = StringComparison.Ordinal, int limit = 0)
+            int startIndex = 0, StringComparison comparison = StringComparison.Ordinal, int limit = 0)
         {
             #region Проверка параметров
             if (string.IsNullOrEmpty(self))
@@ -34,7 +34,7 @@ namespace Leaf.Core.Extensions.String
             if (string.IsNullOrEmpty(left))
                 throw new ArgumentNullException(nameof(left));
 
-            if (string.IsNullOrEmpty(left))
+            if (string.IsNullOrEmpty(right))
                 throw new ArgumentNullException(nameof(right));
 
             if (startIndex < 0 || startIndex >= self.Length)
@@ -55,14 +55,14 @@ namespace Leaf.Core.Extensions.String
                 }
 
                 // Ищем начало позиции левой подстроки.
-                int leftPosBegin = self.IndexOf(left, currentStartIndex, comparsion);
+                int leftPosBegin = self.IndexOf(left, currentStartIndex, comparison);
                 if (leftPosBegin == -1)
                     break;
 
                 // Вычисляем конец позиции левой подстроки.
                 int leftPosEnd = leftPosBegin + left.Length;
                 // Ищем начало позиции правой строки.
-                int rightPos = self.IndexOf(right, leftPosEnd, comparsion);
+                int rightPos = self.IndexOf(right, leftPosEnd, comparison);
                 if (rightPos == -1)
                     break;
 
@@ -91,11 +91,11 @@ namespace Leaf.Core.Extensions.String
         /// Не стоит забывать о функции <see cref="BetweensEx"/> - которая и так бросает исключение <see cref="StringBetweenException"/> в случае если совпадения не будет.
         /// </remarks>
         /// </summary>
-        /// <returns>Возвращает массив подстрок которые попапают под шаблон или <keyword>null</keyword>.</returns>
+        /// <returns>Возвращает массив подстрок которые попадают под шаблон или <keyword>null</keyword>.</returns>
         public static string[] Betweens(this string self, string left, string right,
-            int startIndex = 0, StringComparison comparsion = StringComparison.Ordinal, int limit = 0)
+            int startIndex = 0, StringComparison comparison = StringComparison.Ordinal, int limit = 0)
         {
-            var result = BetweensOrEmpty(self, left, right, startIndex, comparsion, limit);
+            var result = BetweensOrEmpty(self, left, right, startIndex, comparison, limit);
             return result.Length > 0 ? result : null;
         }
 
@@ -105,11 +105,11 @@ namespace Leaf.Core.Extensions.String
         /// Вырезает несколько строк между двумя подстроками. Если совпадений нет, будет брошено исключение <see cref="StringBetweenException"/>.
         /// </summary>
         /// <exception cref="StringBetweenException">Будет брошено если совпадений не было найдено</exception>
-        /// <returns>Возвращает массив подстрок которые попапают под шаблон или бросает исключение <see cref="StringBetweenException"/> если совпадений не было найдено.</returns>
+        /// <returns>Возвращает массив подстрок которые попадают под шаблон или бросает исключение <see cref="StringBetweenException"/> если совпадений не было найдено.</returns>
         public static string[] BetweensEx(this string self, string left, string right,
-            int startIndex = 0, StringComparison comparsion = StringComparison.Ordinal, int limit = 0)
+            int startIndex = 0, StringComparison comparison = StringComparison.Ordinal, int limit = 0)
         {
-            var result = BetweensOrEmpty(self, left, right, startIndex, comparsion, limit);
+            var result = BetweensOrEmpty(self, left, right, startIndex, comparison, limit);
             if (result.Length == 0)
                 throw new StringBetweenException($"StringBetweens not found. Left: \"{left}\". Right: \"{right}\".");
 
@@ -137,25 +137,25 @@ namespace Leaf.Core.Extensions.String
         /// <param name="left">Начальная подстрока</param>
         /// <param name="right">Конечная подстрока</param>
         /// <param name="startIndex">Искать начиная с индекса</param>
-        /// <param name="comparsion">Метод сравнения строк</param>
+        /// <param name="comparison">Метод сравнения строк</param>
         /// <param name="notFoundValue">Значение в случае если подстрока не найдена</param>
         /// <returns>Возвращает строку между двумя подстроками или <paramref name="notFoundValue"/> (по-умолчанию <keyword>null</keyword>).</returns>
         public static string Between(this string self, string left, string right,
-            int startIndex = 0, StringComparison comparsion = StringComparison.Ordinal, string notFoundValue = null)
+            int startIndex = 0, StringComparison comparison = StringComparison.Ordinal, string notFoundValue = null)
         {
             if (string.IsNullOrEmpty(self) || string.IsNullOrEmpty(left) || string.IsNullOrEmpty(right) ||
                 startIndex < 0 || startIndex >= self.Length)
                 return notFoundValue;
 
             // Ищем начало позиции левой подстроки.
-            int leftPosBegin = self.IndexOf(left, startIndex, comparsion);
+            int leftPosBegin = self.IndexOf(left, startIndex, comparison);
             if (leftPosBegin == -1)
                 return notFoundValue;
 
             // Вычисляем конец позиции левой подстроки.
             int leftPosEnd = leftPosBegin + left.Length;
             // Ищем начало позиции правой строки.
-            int rightPos = self.IndexOf(right, leftPosEnd, comparsion);
+            int rightPos = self.IndexOf(right, leftPosEnd, comparison);
 
             return rightPos != -1 ? self.Substring(leftPosEnd, rightPos - leftPosEnd) : notFoundValue;
         }
@@ -167,9 +167,9 @@ namespace Leaf.Core.Extensions.String
         /// </summary>
         /// <returns>Возвращает строку между двумя подстроками. Если совпадений нет, вернет пустую строку.</returns>
         public static string BetweenOrEmpty(this string self, string left, string right,
-            int startIndex = 0, StringComparison comparsion = StringComparison.Ordinal)
+            int startIndex = 0, StringComparison comparison = StringComparison.Ordinal)
         {
-            return Between(self, left, right, startIndex, comparsion, string.Empty);
+            return Between(self, left, right, startIndex, comparison, string.Empty);
         }
 
         /// <inheritdoc cref="Between"/>
@@ -179,9 +179,9 @@ namespace Leaf.Core.Extensions.String
         /// <exception cref="StringBetweenException">Будет брошено если совпадений не было найдено</exception>
         /// <returns>Возвращает строку между двумя подстроками или бросает исключение <see cref="StringBetweenException"/> если совпадений не было найдено.</returns>
         public static string BetweenEx(this string self, string left, string right,
-            int startIndex = 0, StringComparison comparsion = StringComparison.Ordinal)
+            int startIndex = 0, StringComparison comparison = StringComparison.Ordinal)
         {
-            return Between(self, left, right, startIndex, comparsion)
+            return Between(self, left, right, startIndex, comparison)
                 ?? throw new StringBetweenException($"StringBetween not found. Left: \"{left}\". Right: \"{right}\".");
         }
 
@@ -205,7 +205,7 @@ namespace Leaf.Core.Extensions.String
         /// </remarks>
         /// </summary>
         public static string BetweenLast(this string self, string right, string left,
-            int startIndex = -1, StringComparison comparsion = StringComparison.Ordinal,
+            int startIndex = -1, StringComparison comparison = StringComparison.Ordinal,
             string notFoundValue = null)
         {
             if (string.IsNullOrEmpty(self) || string.IsNullOrEmpty(right) || string.IsNullOrEmpty(left) ||
@@ -216,12 +216,12 @@ namespace Leaf.Core.Extensions.String
                 startIndex = self.Length - 1;
 
             // Ищем начало позиции правой подстроки с конца строки
-            int rightPosBegin = self.LastIndexOf(right, startIndex, comparsion);
+            int rightPosBegin = self.LastIndexOf(right, startIndex, comparison);
             if (rightPosBegin == -1 || rightPosBegin == 0) // в обратном поиске имеет смысл проверять на 0
                 return notFoundValue;
 
             // Вычисляем начало позиции левой подстроки
-            int leftPosBegin = self.LastIndexOf(left, rightPosBegin - 1, comparsion);
+            int leftPosBegin = self.LastIndexOf(left, rightPosBegin - 1, comparison);
             // Если не найден левый конец или правая и левая подстрока склеены вместе - вернем пустую строку
             if (leftPosBegin == -1 || rightPosBegin - leftPosBegin == 1)
                 return notFoundValue;
@@ -236,9 +236,9 @@ namespace Leaf.Core.Extensions.String
         /// Вырезает одну строку между двумя подстроками, только начиная поиск с конца. Если совпадений нет, вернет пустую строку.
         /// </summary>
         public static string BetweenLastOrEmpty(this string self, string right, string left,
-            int startIndex = -1, StringComparison comparsion = StringComparison.Ordinal)
+            int startIndex = -1, StringComparison comparison = StringComparison.Ordinal)
         {
-            return BetweenLast(self, right, left, startIndex, comparsion, string.Empty);
+            return BetweenLast(self, right, left, startIndex, comparison, string.Empty);
         }
         
         /// <inheritdoc cref="BetweenEx"/>
@@ -246,9 +246,9 @@ namespace Leaf.Core.Extensions.String
         /// Вырезает одну строку между двумя подстроками, только начиная поиск с конца. Если совпадений нет, будет брошено исключение <see cref="StringBetweenException"/>.
         /// </summary>
         public static string BetweenLastEx(this string self, string right, string left,
-            int startIndex = -1, StringComparison comparsion = StringComparison.Ordinal)
+            int startIndex = -1, StringComparison comparison = StringComparison.Ordinal)
         {
-            return BetweenLast(self, right, left, startIndex, comparsion)
+            return BetweenLast(self, right, left, startIndex, comparison)
                 ?? throw new StringBetweenException($"StringBetween not found. Right: \"{right}\". Left: \"{left}\".");
         }
 

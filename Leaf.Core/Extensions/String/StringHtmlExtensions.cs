@@ -7,7 +7,7 @@ namespace Leaf.Core.Extensions.String
     public static class StringHtmlExtensions
     {
         /// <summary>
-        /// Выбирает внутрений HTML код первого найденного элемента с соответствующим классом.
+        /// Выбирает внутренний HTML код первого найденного элемента с соответствующим классом.
         /// </summary>
         /// <param name="self">Исходный HTML</param>
         /// <param name="className">Имя класса который нужно искать</param>
@@ -26,7 +26,7 @@ namespace Leaf.Core.Extensions.String
         }
 
         /// <summary>
-        /// Выбирает внутрений HTML код первого найденного элемента с соответствующим значением атрибута.
+        /// Выбирает внутренний HTML код первого найденного элемента с соответствующим значением атрибута.
         /// </summary>
         /// <param name="self">Исходный HTML</param>
         /// <param name="attribute">Имя атрибута</param>
@@ -52,7 +52,7 @@ namespace Leaf.Core.Extensions.String
         /// <param name="self">Исходный HTML</param>
         /// <param name="className">Имя класса который нужно искать</param>
         /// <param name="startIndex">Начальный индекс поиска</param>
-        /// <param name="trim">Следует ли обезать пробелы во всех вхождениях</param>
+        /// <param name="trim">Следует ли обрезать пробелы во всех вхождениях</param>
         /// <param name="comparison">Способ сравнения строк</param>
         /// <returns>Вернет все внутренние HTML коды по селектору класса</returns>
         public static string[] InnerHtmlByClassAll(this string self, string className, int startIndex = 0,
@@ -82,7 +82,7 @@ namespace Leaf.Core.Extensions.String
         private static bool HasSubstring(this string self, string left, string right, 
             out string substring,
             out int beginSubstringIndex,
-            int startIndex = 0, StringComparison comparsion = StringComparison.Ordinal)
+            int startIndex = 0, StringComparison comparison = StringComparison.Ordinal)
         {
             substring = null;
             beginSubstringIndex = -1;
@@ -92,7 +92,7 @@ namespace Leaf.Core.Extensions.String
                 return false;
 
             // Ищем начало позиции левой подстроки.
-            int leftPosBegin = self.IndexOf(left, startIndex, comparsion);
+            int leftPosBegin = self.IndexOf(left, startIndex, comparison);
             if (leftPosBegin == -1)
                 return false;
 
@@ -100,7 +100,7 @@ namespace Leaf.Core.Extensions.String
             int leftPosEnd = leftPosBegin + left.Length;
 
             // Ищем начало позиции правой строки.
-            int rightPos = self.IndexOf(right, leftPosEnd, comparsion);
+            int rightPos = self.IndexOf(right, leftPosEnd, comparison);
             if (rightPos == -1)
                 return false;
 

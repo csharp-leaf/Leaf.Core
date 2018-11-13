@@ -5,7 +5,7 @@ namespace Leaf.Core.Threading
 {
     /// <inheritdoc />
     /// <summary>
-    /// Критическая ошибка конвеера. Вызывает его остановку.
+    /// Критическая ошибка конвейера. Вызывает его остановку.
     /// </summary>
     [Serializable]
     public class TaskPanicException : Exception

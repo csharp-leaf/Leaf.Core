@@ -40,7 +40,7 @@ namespace Leaf.Core.Text
             // добавляем прилагательное или глагол
             string adj = Adjectives[Rand.Next(Adjectives.Length - 1)];
             if (wordUpperFirst)
-                adj = adj.ToUpperFirst(false); // (оптимизационный выхов) только 1я заглавная, остальные буквы без изменений
+                adj = adj.ToUpperFirst(false); // (оптимизационный вывод) только 1я заглавная, остальные буквы без изменений
             result.Append(adj);
 
             // добавляем разделитель если он установлен
@@ -50,7 +50,7 @@ namespace Leaf.Core.Text
             // добавляем существительное
             string noun = Nouns[Rand.Next(Nouns.Length - 1)];
             if (wordUpperFirst)
-                noun = noun.ToUpperFirst(false); // (оптимизационный выхов) только 1я заглавная, остальные буквы без изменений
+                noun = noun.ToUpperFirst(false); // (оптимизационный вывод) только 1я заглавная, остальные буквы без изменений
             result.Append(noun);
 
             // добавляем число в конце если нужно
@@ -97,7 +97,7 @@ namespace Leaf.Core.Text
         {
             // проверка параметров
             if (minDigits > maxDigits || maxDigits < minDigits) // || minDigits == 0 || maxDigits == 0
-                throw new ArgumentException("Неверно заданы количесво цифр для добавления в StringBuilder");
+                throw new ArgumentException("Неверно задано количество цифр для добавления в StringBuilder");
 
             // частная оптимизация
             if (minDigits == 1 && maxDigits == 1)
@@ -111,7 +111,7 @@ namespace Leaf.Core.Text
             for (int i = 0; i < maxDigits; i++)
                 max *= 10;
 
-            // дополняем нулями минимальную длинну цифр
+            // дополняем нулями минимальную длину цифр
             string random = Rand.Next(0, max - 1).ToString();
             int randomLength = random.Length;
 

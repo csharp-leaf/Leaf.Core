@@ -22,7 +22,7 @@ namespace Leaf.Core.Collections.Generic
         /// </summary>
         /// <param name="filePath">Путь до файла</param>
         /// <param name="ui">Потокобезопасный интерфейс, нужен для ведения лога в случае ошибки десериализации</param>
-        /// <param name="includeComments">Если true, то строки с коментариями тоже будут включены в выборку для десериалиализации.</param>
+        /// <param name="includeComments">Если true, то строки с комментариями тоже будут включены в выборку для десериалиализации.</param>
         /// <param name="trim">Очищать начало и конец строк от отступов и пробелов.</param>
         /// <returns>Возвращает новый потокобезопасный список объектов</returns>
         public static ConcurrentBag<T> BagFromFile<T>(string filePath, ThreadSafeUI ui = null,
@@ -39,7 +39,7 @@ namespace Leaf.Core.Collections.Generic
         /// </summary>
         /// <param name="filePath">Путь до файла</param>
         /// <param name="ui">Потокобезопасный интерфейс, нужен для ведения лога в случае ошибки десериализации</param>
-        /// <param name="includeComments">Если true, то строки с коментариями тоже будут включены в выборку для десериалиализации.</param>
+        /// <param name="includeComments">Если true, то строки с комментариями тоже будут включены в выборку для десериалиализации.</param>
         /// <param name="trim">Очищать начало и конец строк от отступов и пробелов.</param>
         /// <returns>Возвращает новую потокобезопасную очередь объектов</returns>
         public static ConcurrentQueue<T> QueueFromFile<T>(string filePath, ThreadSafeUI ui = null, 

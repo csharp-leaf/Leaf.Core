@@ -46,7 +46,7 @@ namespace Leaf.Core.Extensions.String
         /// Преобразовывает первую букву в верхний реестр.
         /// </summary>
         /// <param name="s">Строка которая должна быть с первой заглавной буквой</param>
-        /// <param name="useToLower">Следует ли преобразовавать все символы кроме первого в нижний реестр</param>
+        /// <param name="useToLower">Следует ли преобразовывать все символы кроме первого в нижний реестр</param>
         /// <returns>Строка с первой заглавной буквой.</returns>
         public static string ToUpperFirst(this string s, bool useToLower = true)
         {
@@ -122,7 +122,7 @@ namespace Leaf.Core.Extensions.String
         }
 
         /// <summary>
-        /// Возращает тип форматирование числа с разделением тысяч.
+        /// Возвращает тип форматирование числа с разделением тысяч.
         /// </summary>
         public static NumberFormatInfo ThousandNumberFormatInfo
         {

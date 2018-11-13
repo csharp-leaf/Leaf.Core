@@ -12,8 +12,8 @@ namespace Leaf.Core.Extensions.String.Tests
         private const string BetweenTextSecond = "text 2";
         private const string BetweensText = BetweenLeft + BetweenTextFirst + BetweenRight + BetweenLeft + BetweenTextSecond + BetweenRight + " hello world";
 
-        private const string BetweenNotExisingLeft = "<nothing>";
-        private const string BetweenNotExisingRight = "</nothing>";
+        private const string BetweenNotExistingLeft = "<nothing>";
+        private const string BetweenNotExistingRight = "</nothing>";
 
         [TestMethod]
         public void BetweensOrEmptyTest()
@@ -25,7 +25,7 @@ namespace Leaf.Core.Extensions.String.Tests
             Assert.AreEqual(BetweenTextFirst, res[0]);
             Assert.AreEqual(BetweenTextSecond, res[1]);
 
-            res = BetweensText.BetweensOrEmpty(BetweenNotExisingLeft, BetweenNotExisingRight);
+            res = BetweensText.BetweensOrEmpty(BetweenNotExistingLeft, BetweenNotExistingRight);
             Assert.IsNotNull(res);
             Assert.IsTrue(res.Length == 0);
         }
@@ -40,7 +40,7 @@ namespace Leaf.Core.Extensions.String.Tests
             Assert.AreEqual(BetweenTextFirst, res[0]);
             Assert.AreEqual(BetweenTextSecond, res[1]);
 
-            res = BetweensText.Betweens(BetweenNotExisingLeft, BetweenNotExisingRight);
+            res = BetweensText.Betweens(BetweenNotExistingLeft, BetweenNotExistingRight);
             Assert.IsNull(res);
         }
 
@@ -54,7 +54,7 @@ namespace Leaf.Core.Extensions.String.Tests
             Assert.AreEqual(BetweenTextSecond, res[1]);
 
             Assert.ThrowsException<StringBetweenException>(() => {
-                BetweensText.BetweensEx(BetweenNotExisingLeft, BetweenNotExisingRight);
+                BetweensText.BetweensEx(BetweenNotExistingLeft, BetweenNotExistingRight);
             });
         }
 
@@ -65,7 +65,7 @@ namespace Leaf.Core.Extensions.String.Tests
             Assert.IsFalse(string.IsNullOrEmpty(res));
             Assert.AreEqual(BetweenTextFirst, res);
 
-            res = BetweensText.Between(BetweenNotExisingLeft, BetweenNotExisingRight);
+            res = BetweensText.Between(BetweenNotExistingLeft, BetweenNotExistingRight);
             Assert.IsNull(res);
         }
 
@@ -76,7 +76,7 @@ namespace Leaf.Core.Extensions.String.Tests
             Assert.IsFalse(string.IsNullOrEmpty(res));
             Assert.AreEqual(BetweenTextFirst, res);
 
-            res = BetweensText.BetweenOrEmpty(BetweenNotExisingLeft, BetweenNotExisingRight);
+            res = BetweensText.BetweenOrEmpty(BetweenNotExistingLeft, BetweenNotExistingRight);
             Assert.IsNotNull(res);
             Assert.AreEqual(string.Empty, res);
         }
@@ -89,7 +89,7 @@ namespace Leaf.Core.Extensions.String.Tests
             Assert.AreEqual(BetweenTextFirst, res);
 
             Assert.ThrowsException<StringBetweenException>(() => {
-                BetweensText.BetweenEx(BetweenNotExisingLeft, BetweenNotExisingRight);
+                BetweensText.BetweenEx(BetweenNotExistingLeft, BetweenNotExistingRight);
             });
         }
 
@@ -100,7 +100,7 @@ namespace Leaf.Core.Extensions.String.Tests
             Assert.IsFalse(string.IsNullOrEmpty(res));
             Assert.AreEqual(BetweenTextSecond, res);
 
-            res = BetweensText.BetweenLast(BetweenNotExisingRight, BetweenNotExisingLeft);
+            res = BetweensText.BetweenLast(BetweenNotExistingRight, BetweenNotExistingLeft);
             Assert.IsNull(res);
         }
 
@@ -111,7 +111,7 @@ namespace Leaf.Core.Extensions.String.Tests
             Assert.IsFalse(string.IsNullOrEmpty(res));
             Assert.AreEqual(BetweenTextSecond, res);
 
-            res = BetweensText.BetweenLastOrEmpty(BetweenNotExisingRight, BetweenNotExisingLeft);
+            res = BetweensText.BetweenLastOrEmpty(BetweenNotExistingRight, BetweenNotExistingLeft);
             Assert.IsNotNull(res);
             Assert.AreEqual(string.Empty, res);
         }
@@ -124,7 +124,7 @@ namespace Leaf.Core.Extensions.String.Tests
             Assert.AreEqual(BetweenTextSecond, res);
 
             Assert.ThrowsException<StringBetweenException>(() => {
-                BetweensText.BetweenLastEx(BetweenNotExisingRight, BetweenNotExisingLeft);
+                BetweensText.BetweenLastEx(BetweenNotExistingRight, BetweenNotExistingLeft);
             });
 
         }

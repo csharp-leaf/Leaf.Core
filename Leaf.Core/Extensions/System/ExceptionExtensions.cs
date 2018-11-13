@@ -8,7 +8,7 @@ namespace Leaf.Core.Extensions.System
     /// </summary>
     /// <param name="ex">Исключение</param>
     /// <returns>вернет истину если ошибка была обработана и не следует бросать исключение выше.</returns>
-    public delegate bool DProcessAgregated(Exception ex);
+    public delegate bool DProcessAggregated(Exception ex);
 
     // ReSharper disable once UnusedMember.Global
     public static class ExceptionExtensions
@@ -73,7 +73,7 @@ namespace Leaf.Core.Extensions.System
         /// <param name="ex">Возможно агрегированное исключение</param>
         /// <param name="handler">Обработчик</param>
         /// <returns>вернет истину если ошибка была обработана и не следует бросать исключение выше.</returns>
-        public static bool ProcessAgregated(this Exception ex, DProcessAgregated handler)
+        public static bool ProcessAggregated(this Exception ex, DProcessAggregated handler)
         {
             if (!(ex is AggregateException ag)) 
                 return handler(ex);

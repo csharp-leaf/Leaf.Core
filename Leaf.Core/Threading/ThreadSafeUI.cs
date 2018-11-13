@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using System.Threading;
+
 // ReSharper disable UnusedMember.Global
 
 namespace Leaf.Core.Threading
@@ -16,6 +17,7 @@ namespace Leaf.Core.Threading
     /// </summary>
     /// <param name="enable">Включить элементы интерфейса</param>
     public delegate void DEnableUI(bool enable = true);
+
     /// <summary>
     /// Делегат для установления хода работы.
     /// </summary>
@@ -32,6 +34,7 @@ namespace Leaf.Core.Threading
         /// Блокирование интерфейса, на время работы.
         /// </summary>
         public DEnableUI EnableUI;
+
         /// <summary>
         /// Установка хода работы.
         /// </summary>
@@ -79,7 +82,7 @@ namespace Leaf.Core.Threading
         }
 
         /// <summary>
-        /// Уничтожает прошлый CancellationTokenSource и сбразывает CancelToken создавая новый.
+        /// Уничтожает прошлый CancellationTokenSource и сбрасывает CancelToken создавая новый.
         /// </summary>
         public void ResetCancelSource()
         {

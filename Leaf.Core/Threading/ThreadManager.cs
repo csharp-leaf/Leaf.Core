@@ -115,7 +115,7 @@ namespace Leaf.Core.Threading
         {
             if (!IsWorking)
                 return;
-            
+
             _ui.CancelAndThrow();
             _ui.Log("Идет плавная остановка всех потоков...");
         }
@@ -144,7 +144,7 @@ namespace Leaf.Core.Threading
         /// <summary>
         /// Метод реализующий работу в рамках одного потока.
         /// </summary>
-        /// <param name="args">Аргументы, переданнные при запуске потока</param>
+        /// <param name="args">Аргументы, переданные при запуске потока</param>
         protected abstract void Do(object args);
 
         // Обертка для запуска Do()
