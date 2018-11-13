@@ -96,7 +96,7 @@ namespace Leaf.Core.Text
         private static void AppendRandomNumbers(this StringBuilder sb, int minDigits, int maxDigits)
         {
             // проверка параметров
-            if (minDigits > maxDigits || maxDigits < minDigits) // || minDigits == 0 || maxDigits == 0
+            if (maxDigits - minDigits < 0)
                 throw new ArgumentException("Неверно задано количество цифр для добавления в StringBuilder");
 
             // частная оптимизация
