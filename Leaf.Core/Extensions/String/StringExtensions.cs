@@ -11,6 +11,28 @@ namespace Leaf.Core.Extensions.String
     public static class StringExtensions
     {
         /// <summary>
+        /// Проверяет строку, является ли она ссылкой с протоколом http:// или https://.
+        /// </summary>
+        /// <param name="self">Ссылка</param>
+        /// <param name="trim">Следует ли отсечь пробелы в начале и конце ссылки перед проверкой</param>
+        /// <returns>Вернет <see langword="true"/> если строка оказалось ссылкой начинающийся на http:// или https://.</returns>
+        public static bool IsWebLink(this string self, bool trim = false)
+        {
+            string link = self;
+            if (trim)
+                link = link.Trim();
+
+            return link.StartsWith("http://") || link.StartsWith("https://");
+        }
+
+        /// <summary>
+        /// Проверяет строку на равенство пустой строке и возвращает null если равенство соблюдено.
+        /// Используется для цепочных ? вызовов.
+        /// </summary>
+        /// <returns>Вернет <see langword="null"/> если строка равна <see cref="string.Empty"/>.</returns>
+        public static string NullOnEmpty(this string self) => self == string.Empty ? null : self;
+
+        /// <summary>
         /// Проверяет наличие слова в строке, аналогично <see cref="string.Contains(string)"/>, но без учета реестра и региональных стандартов.
         /// </summary>
         /// <param name="str">Строка для поиска слова</param>
