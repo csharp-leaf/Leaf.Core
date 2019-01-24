@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace Leaf.Core.Extensions.System
+namespace Leaf.Core.Extensions
 {
     /// <summary>
     /// Делегат, обрабатывающий исключение внутри нескольких исключений (объединённых).

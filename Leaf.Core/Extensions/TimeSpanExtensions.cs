@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Text;
 
-namespace Leaf.Core.Extensions.System
+namespace Leaf.Core.Extensions
 {
     /// <summary>
     /// Расширения при работе со временем.

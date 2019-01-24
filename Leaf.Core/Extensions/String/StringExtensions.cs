@@ -32,6 +32,20 @@ namespace Leaf.Core.Extensions.String
         /// <returns>Вернет <see langword="null"/> если строка равна <see cref="string.Empty"/>.</returns>
         public static string NullOnEmpty(this string self) => self == string.Empty ? null : self;
 
+        /// <inheritdoc cref="string.IsNullOrEmpty"/>
+        /// <summary>
+        /// Расширение для метода <see cref="string.IsNullOrEmpty"/>.
+        /// </summary>
+        /// <param name="self">Строка</param>
+        public static bool IsNullOrEmpty(this string self) => string.IsNullOrEmpty(self);
+
+        /// <summary>
+        /// Проверка строки на полезный контент.
+        /// </summary>
+        /// <param name="self">Строка</param>
+        /// <returns>Вернет <see langword="true" /> если строка не является <see langword="null"/>, пустой строкой и пробелами.</returns>
+        public static bool HasContent(this string self) => !string.IsNullOrWhiteSpace(self);
+
         /// <summary>
         /// Проверяет наличие слова в строке, аналогично <see cref="string.Contains(string)"/>, но без учета реестра и региональных стандартов.
         /// </summary>

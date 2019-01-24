@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 
-namespace Leaf.Core.Extensions.System
+namespace Leaf.Core.Extensions
 {
     public static class DateTimeExtensions
     {

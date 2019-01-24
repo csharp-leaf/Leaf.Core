@@ -66,6 +66,13 @@ namespace Leaf.Core.Threading
         public bool IsCanceled => CancelToken.IsCancellationRequested;
 
         /// <summary>
+        /// Возвращает истину если исключение является <see cref="OperationCanceledException"/> и <see cref="CancelToken"/> был отменен.
+        /// </summary>
+        /// <param name="ex">Исключение которое было брошено</param>
+        /// <returns>Вернет истину если работа была отменена пользователем через <see cref="CancelToken"/>.</returns>
+        public bool IsCanceledByUser(Exception ex) => ex is OperationCanceledException && IsCanceled;
+
+        /// <summary>
         /// Создает потокобезопасную реализацию для работы с интерфейсом.
         /// </summary>
         /// <param name="formLog">Делегат на запись в лог</param>

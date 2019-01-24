@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using Leaf.Core.Extensions.String;
 
-namespace Leaf.Core.Extensions.System
+namespace Leaf.Core.Extensions
 {
     /// <summary>
     /// Расширения для форматирования чисел к виду с разделителем тысяч.
