@@ -10,6 +10,9 @@ namespace Leaf.Core.Extensions.String
     /// </summary>
     public static class StringExtensions
     {
+        public const string HttpProto = "http://";
+        public const string HttpsProto = "https://";
+
         /// <summary>
         /// Проверяет строку, является ли она ссылкой с протоколом http:// или https://.
         /// </summary>
@@ -22,7 +25,7 @@ namespace Leaf.Core.Extensions.String
             if (trim)
                 link = link.Trim();
 
-            return link.StartsWith("http://") || link.StartsWith("https://");
+            return link.StartsWith(HttpProto) || link.StartsWith(HttpsProto);
         }
 
         /// <summary>
@@ -37,7 +40,13 @@ namespace Leaf.Core.Extensions.String
         /// Расширение для метода <see cref="string.IsNullOrEmpty"/>.
         /// </summary>
         /// <param name="self">Строка</param>
-        public static bool IsNullOrEmpty(this string self) => string.IsNullOrEmpty(self);
+        public static bool NullOrEmpty(this string self) => string.IsNullOrEmpty(self);
+
+        /// <summary>
+        /// Инвертированный вызов <see cref="string.IsNullOrEmpty"/>.
+        /// </summary>
+        /// <returns>Вернет <see langword="true"/> если строка не является пустой или <see langword="null"/>.</returns>
+        public static bool NotNullNotEmpty(this string self) => !string.IsNullOrEmpty(self);
 
         /// <summary>
         /// Проверка строки на полезный контент.
