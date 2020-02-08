@@ -15,7 +15,7 @@ dotnet_csproj:
   informational_version: '{version}'
 environment:
   nuget_token:
-    secure: B8QuQMemomqdolE+Eo5VCsRR8lrKt9Ue/WszmVEXzgeV8nZsA+wmkrTXeVO0gwal
+    secure: BzdLe9enAWcmUiOBMdx02CYt2T+xuLGlvieE2+Ceic8tmFpEb06EOlikWdyOxxbf
   github_token:
     secure: 2LiLyCv5qwnAClSid16P+Yiq+zIyBk+6/Xl1ZDOKz5g6ab2vXosiY3m93n52q1WX
 nuget:
@@ -39,7 +39,7 @@ artifacts:
 deploy:
 - provider: NuGet
   api_key:
-    secure: LAP1RRHzZP5slfjtjZY7WQ==
+    secure: BzdLe9enAWcmUiOBMdx02CYt2T+xuLGlvieE2+Ceic8tmFpEb06EOlikWdyOxxbf
   skip_symbols: true
   on:
     branch: master
