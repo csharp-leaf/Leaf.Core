@@ -47,7 +47,7 @@ deploy:
   tag: v$(appveyor_build_version)
   release: Leaf.Core v$(appveyor_build_version)
   auth_token:
-    secure: BzdLe9enAWcmUiOBMdx02CYt2T+xuLGlvieE2+Ceic8tmFpEb06EOlikWdyOxxbf
+    secure: NQtMOO3yB309cDK/pFWRiQ==
   artifact: net452;net462;net472;netcoreapp3.0
   on:
     branch: master
