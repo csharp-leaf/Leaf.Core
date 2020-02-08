@@ -11,7 +11,7 @@
 		<AppDesignerFolder>Properties</AppDesignerFolder>
 		<RootNamespace>Leaf.Core</RootNamespace>
 		<AssemblyName>Leaf.Core</AssemblyName>
-		<TargetFrameworks>net452;net462;net471;net472;netcoreapp2.0;netcoreapp2.1</TargetFrameworks>
+		<TargetFrameworks>net452;net462;net472;netcoreapp3.0</TargetFrameworks>
 		<FileAlignment>512</FileAlignment>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<Authors>Grand Silence</Authors>

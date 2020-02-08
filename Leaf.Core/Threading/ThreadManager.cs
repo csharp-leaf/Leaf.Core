@@ -117,7 +117,6 @@ namespace Leaf.Core.Threading
                 return;
 
             _ui.CancelAndThrow();
-            _ui.Log("Идет плавная остановка всех потоков...");
         }
 
         /// <summary>
@@ -127,8 +126,6 @@ namespace Leaf.Core.Threading
         {
             if (!IsWorking)
                 return;
-
-            _ui.Log("Принудительное завершение потоков...");
 
             // завершаем потоки
             foreach (var thread in _threads)
